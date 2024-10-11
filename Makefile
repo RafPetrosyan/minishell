@@ -12,50 +12,24 @@ SRCS_DIR = sources/
 
 OBJS_DIR = objects/
 
-SRCS_NAME =		minishell.c \
-				#ft_split_tokens.c \
-				error_handle.c  \
-				init.c \
-				builtins.c \
-				tokenization.c \
-				ft_itoa.c \
-				utils3.c \
-				utils2.c \
-				utils.c \
-				signal.c \
-				quotes_utils.c \
-				dollar.c \
-				dollar_utils.c \
-				close_free_err.c \
-				quotes.c \
-				ft_split.c \
-				commands.c \
-				commands2.c \
-				pipex.c  \
-				here_doc.c \
-				redirs.c \
-				cd.c \
-				unset.c \
-				export.c \
-				export2.c \
-				exit.c \
-				env.c \
-				builtin_utils.c \
-
+SRCS_NAME =		minishell.c 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 
-all: $(LIBS_DIR)/$(READLINE) $(NAME)
+all: config_readline $(LIBS_DIR)/$(READLINE) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH)
+	$(CC) $(CFLAGS) -lncurses -l$(READLINE) -L$(READLINE_LIB_PATH) -L/usr/lib/include $^ -o $@ 
 
+linux_minishell: $(OBJS)
+
+	$(CC) $(CFLAGS) $^ -o $(NAME) -l$(READLINE)
+
+config_readline:
+	./$(LIBS_DIR)/config_readline readline
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c  Makefile
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ 
-
-$(LIBS_DIR)/$(READLINE):
-	./$(LIBS_DIR)/config_readline readline
 
 clean:
 	@$(RM) $(OBJS)
@@ -68,4 +42,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re config_readline
