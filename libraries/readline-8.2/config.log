@@ -1952,7 +1952,7 @@ configure:7048: $? = 0
 configure:7048: result: yes
 configure:7074: checking for tgetent
 configure:7074: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccIkXXgM.o: in function `main':
+/usr/bin/ld: /tmp/ccSbmrKg.o: in function `main':
 /home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:123: undefined reference to `tgetent'
 collect2: error: ld returned 1 exit status
 configure:7074: $? = 1
@@ -2247,7 +2247,7 @@ configure:7414: $? = 0
 configure:7414: result: yes
 configure:7421: checking for mbscasecmp
 configure:7421: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/cczzOOYL.o: in function `main':
+/usr/bin/ld: /tmp/ccNum1Ut.o: in function `main':
 /home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscasecmp'
 collect2: error: ld returned 1 exit status
 configure:7421: $? = 1
@@ -2386,7 +2386,7 @@ configure: failed program was:
 configure:7421: result: no
 configure:7428: checking for mbscmp
 configure:7428: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccErYrRT.o: in function `main':
+/usr/bin/ld: /tmp/ccalpIxK.o: in function `main':
 /home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscmp'
 collect2: error: ld returned 1 exit status
 configure:7428: $? = 1
@@ -2533,7 +2533,7 @@ configure:7442: $? = 0
 configure:7442: result: yes
 configure:7450: checking for mbschr
 configure:7450: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/cc5ipTwk.o: in function `main':
+/usr/bin/ld: /tmp/ccWLl1Up.o: in function `main':
 /home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:130: undefined reference to `mbschr'
 collect2: error: ld returned 1 exit status
 configure:7450: $? = 1

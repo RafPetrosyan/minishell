@@ -1,13 +1,15 @@
 #include "minishell.h"
-# include <readline/readline.h>
+
 int main()
 {
 	char	*str;
 
 	while (1)
 	{
-		str = readline("Welcome my Minishell: ");
+		str = readline("\033[38;5;43mMinishell:\033[0;000m ");
+		add_history(str);
+		printf("%d\n", check_quote(str));
 		free(str);
 	}
-	printf("%s", str);
+	return (0);
 }
