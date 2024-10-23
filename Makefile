@@ -13,6 +13,7 @@ SRCS_DIR = sources/
 OBJS_DIR = objects/
 
 SRCS_NAME = minishell.c \
+			ft_split.c \
 			source.c
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
