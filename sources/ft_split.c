@@ -1,17 +1,25 @@
 #include "minishell.h"
 
-static int	ft_get_word_count(char *str, char c)
+int	ft_get_word_count(char *str, char c)
 {
 	int	i;
 	int	word_count;
+    int flag1;
+    int flag2;
 
+    flag1 = 0;
+    flag2 = 0;
 	word_count = 0;
 	i = 0;
 	while (str[i] != '\0')
 	{
 		if ((i == 0 && str[i] != c) || (i != 0
-				&& str[i] != c && str[i - 1] == c))
+				&& str[i] != c && str[i - 1] == c && ((flag1 % 2 == 0) && (flag2 % 2 == 0))))
 			++word_count;
+        if (str[i] == '\'' && flag2 % 2 == 0)
+            ++flag1;
+        if (str[i] == '"' && flag1 % 2 == 0 && check_zuyg_slash(str, i) == 0)
+            ++flag2;
 		++i;
 	}
 	return (word_count);

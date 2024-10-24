@@ -34,6 +34,8 @@ int check_one_quote(char *str, int *i)
     {
         if (str[*i] == '\'')
             ++flag;
+        // if (str[*i] == '\'' && flag == 1 && check_zuyg_slash(str, *i) == 1)
+        //     --flag;
         ++(*i);
         if (flag == 2)
             return (1);//pakvel e
