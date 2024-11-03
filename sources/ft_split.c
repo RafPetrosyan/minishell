@@ -5,18 +5,18 @@ int	ft_get_word_len(char *str, int *i)
 	int	count;
 
 	count = 0;
+	while (str[*i] != '\0' && str[*i] == ' ')
+		++(*i);
 	while (str[*i] != '\0')
 	{
-		while (str[*i] == ' ')
-			++(*i);
-		count += check_non_quote(str, i);
 		if (str[*i] == '\'' && check_zuyg_slash(str, *i) == 0)
 			count += (check_one_quote(str, i));
 		else if (str[*i] == '"' && check_zuyg_slash(str, *i) == 0)
 			count += (check_two_quote(str, i));
+		else
+			count += check_non_quote(str, i);
 		if (str[*i] == ' ')
 			return (count);
-		count += check_non_quote(str, i);
 	}
 	return (count);
 }

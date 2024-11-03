@@ -5,6 +5,8 @@ int check_quote(char *str)
     int i;
     int lenght;
 
+    if (!str)
+        return (0);
     i = 0;
     lenght = ft_strlen(str);
     while (i < lenght)
@@ -22,7 +24,7 @@ int check_quote(char *str)
         else
             ++i;
     }
-    if (str[lenght - 1 ] == '\\' && !check_zuyg_slash(str, lenght - 1))
+    if (lenght != 0 && str[lenght - 1 ] == '\\' && !check_zuyg_slash(str, lenght - 1))
         return (printf("Error\n"));
     return (1);//ok
 }
@@ -91,9 +93,9 @@ int check_two_quote(char *str, int *i)
             ++count;
             slash_flag = 0;
         }
-        ++(*i);
         if (flag == 2)
             return (count - 2);//pakvel e
+        ++(*i);
     }
     printf("Error 2 \n");
     return (0);// chi pakvel 
@@ -103,6 +105,8 @@ int	ft_strlen(const char *str)
 {
 	int	i;
 
+    if (!str)
+        return (0);
 	i = 0;
 	while (str[i] != '\0')
 		++i;
