@@ -11,12 +11,12 @@ int check_quote(char *str)
     lenght = ft_strlen(str);
     while (i < lenght)
     {
-        if (str[i] == '\'' && check_zuyg_slash(str, i) == 0)
+        if (str[i] == '\'')
         {
             if (check_one_quote(str, &i) == 0)
                 return (0);
         }
-        else if (str[i] == '"' && check_zuyg_slash(str, i) == 0)
+        else if (str[i] == '"')
         {
             if (check_two_quote(str, &i) == 0)
                 return (0);
@@ -24,29 +24,25 @@ int check_quote(char *str)
         else
             ++i;
     }
-    if (lenght != 0 && str[lenght - 1 ] == '\\' && !check_zuyg_slash(str, lenght - 1))
-        return (printf("Error\n"));
+    if (lenght != 0 && str[lenght - 1 ] == '\\')
+    {
+        printf("Error\n");
+        return (0);
+    }
     return (1);//ok
 }
 
 int	check_non_quote(char *str, int *i)
 {
-    int slash_flag;
     int count;
 
     count = 0;
-    slash_flag = 0;
     while (str[*i] != '\0')
     {
-        if (str[*i] == '\\')
-            ++slash_flag;
-        if ((str[*i] == '\\' && slash_flag == 2) || (str[*i] != '\\' && slash_flag == 1) || (slash_flag == 0))
-        {
-            ++count;
-            slash_flag = 0;
-        }
+        if (str[*i] == '$')
+            count += dollar_arg_len(str, i);// --(*i)
         ++(*i);
-        if ((str[*i] == ' ' && check_zuyg_slash(str, *i) == 0) || str[*i] == '\0')
+        if (str[*i] == ' ' || str[*i] == '\0')
             return (count);
     }
     return (count);
@@ -76,25 +72,18 @@ int check_one_quote(char *str, int *i)
 int check_two_quote(char *str, int *i)
 {
     int flag;
-    int slash_flag;
     int count;
 
     count = 0;
     flag = 0;
-    slash_flag = 0;
     while (str[*i] != '\0')
     {
-        if (str[*i] == '"' && !(i != 0 && check_zuyg_slash(str, *i)))
+        if (str[*i] == '"')
             ++flag;
-        if (str[*i] == '\\')
-            ++slash_flag;
-        if ((slash_flag == 2) || !(slash_flag == 1 && str[*i + 1] != '\0' && (str[*i + 1] == '"' || str[*i + 1] == '$' || str[*i + 1] == '\\')) || slash_flag == 0)
-        {
-            ++count;
-            slash_flag = 0;
-        }
         if (flag == 2)
             return (count - 2);//pakvel e
+        if (str[*i] == '$')
+            count += dollar_arg_len(str, *i);// --(*i)
         ++(*i);
     }
     printf("Error 2 \n");
@@ -111,14 +100,4 @@ int	ft_strlen(const char *str)
 	while (str[i] != '\0')
 		++i;
 	return (i);
-}
-
-int check_zuyg_slash(char *str, int j)
-{
-    int count;
-
-    count = 0;
-    while (j > 0 && str[--j] == '\\')
-        ++count;
-    return (count % 2);
 }

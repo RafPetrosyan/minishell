@@ -9,9 +9,9 @@ int	ft_get_word_len(char *str, int *i)
 		++(*i);
 	while (str[*i] != '\0')
 	{
-		if (str[*i] == '\'' && check_zuyg_slash(str, *i) == 0)
+		if (str[*i] == '\'')
 			count += (check_one_quote(str, i));
-		else if (str[*i] == '"' && check_zuyg_slash(str, *i) == 0)
+		else if (str[*i] == '"')
 			count += (check_two_quote(str, i));
 		else
 			count += check_non_quote(str, i);
@@ -81,17 +81,17 @@ int	ft_get_word_count(char *str)//, char c)
 
 // }
 
-// int	dollar_arg_len(char *str, int index)
-// {
-// 	int index_2;
-// 	int	count;
+int	dollar_arg_len(char *str, int index)
+{
+	int index_2;
+	int	count;
 
-// 	index_2 = index;
-// 	count = 0;
-// 	while (str[index] != '\\' && str[index] != '"' && str[index] != ' ')
-// 	{
-// 		++count;
-// 		++index;
-// 	}
-// 	return (count);
-// }
+	index_2 = index;
+	count = 0;
+	while (str[index] != '\\' && str[index] != '"' && str[index] != ' ')
+	{
+		++count;
+		++index;
+	}
+	return (count);
+}
