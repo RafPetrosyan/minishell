@@ -1,7 +1,9 @@
 #include "minishell.h"
+#include <unistd.h>
 
 int main()
 {
+	t_tokens **tokens;
 	char	*str;
 	int *arr;
 	int i=0;
@@ -13,16 +15,18 @@ int main()
 		if (!str)
 			return (0);
 		add_history(str);
-		//printf("%s\n", str);
 		if (check_quote(str) == 1)
 		{
-			// printf("Hello\n");
 			arr = malloc_word_len_arr(str);
-		}
-		else
-		{
 			while(arr[i] != -1)
 				printf("%d\n", arr[i++]);
+			tokens = split_tokens(str, 0);
+			i = 0;
+			while (tokens[i] != 0)
+			{
+				printf("%s\t", tokens[i]->str);
+				++i;
+			}
 		}
 		free(str);
 	}

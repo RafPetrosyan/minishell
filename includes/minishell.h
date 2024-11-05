@@ -27,12 +27,19 @@ int check_quote(char *str);
 int	check_non_quote(char *str, int *i);
 int check_one_quote(char *str, int *i);
 int check_two_quote(char *str, int *i);
-int	ft_strlen(const char *str);
+int	ft_strlen(char *str);
 int	dollar_arg_len(char *str, int index);
 
 //          ft_split
 int	ft_get_word_len(char *str, int *i);
 int	*malloc_word_len_arr(char *str);
-int	ft_get_word_count(char *str);//, char c)
+int	ft_get_word_count(char *str);
+void	write_tokens(char *str, int *i, t_tokens **arr, int arr_i);
+void	write_non_quote(char *str, int *i, t_tokens *token, int *j);
+void    write_one_quote(char *str, int *i, t_tokens *token, int *j);
+void    write_two_quote(char *str, int *i, t_tokens *token, int *j);
+t_tokens **split_tokens(char *str, int i);
+
+
 
 #endif

@@ -5,29 +5,27 @@ int check_quote(char *str)
     int i;
     int lenght;
 
-    if (!str)
-        return (0);
     i = 0;
     lenght = ft_strlen(str);
-    while (i < lenght)
-    {
-        if (str[i] == '\'')
-        {
-            if (check_one_quote(str, &i) == 0)
-                return (0);
-        }
-        else if (str[i] == '"')
-        {
-            if (check_two_quote(str, &i) == 0)
-                return (0);
-        }
-        else
-            ++i;
-    }
     if (lenght != 0 && str[lenght - 1 ] == '\\')
     {
         printf("Error\n");
         return (0);
+    }
+    while (i < lenght)
+    {
+        if (str[i] == '\'')
+        {
+            if (check_one_quote(str, &i) == -1)
+                return (0);
+        }
+        else if (str[i] == '"')
+        {
+            if (check_two_quote(str, &i) == -1)
+                return (0);
+        }
+        else
+            ++i;
     }
     return (1);//ok
 }
@@ -40,9 +38,11 @@ int	check_non_quote(char *str, int *i)
     while (str[*i] != '\0')
     {
         if (str[*i] == '$')
-            count += dollar_arg_len(str, i);// --(*i)
+            count += dollar_arg_len(str, *i);// --(*i)
+        else
+            ++count;
         ++(*i);
-        if (str[*i] == ' ' || str[*i] == '\0')
+        if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"')
             return (count);
     }
     return (count);
@@ -64,8 +64,8 @@ int check_one_quote(char *str, int *i)
         if (flag == 2)
             return (count - 2);//pakvel e
     }
-    printf("Error \n");
-    return (0);// chi pakvel 
+    printf("chi pakvel meky");
+    return (-1);// chi pakvel 
 }
 
 
@@ -80,22 +80,25 @@ int check_two_quote(char *str, int *i)
     {
         if (str[*i] == '"')
             ++flag;
-        if (flag == 2)
-            return (count - 2);//pakvel e
+        ++(*i);
         if (str[*i] == '$')
             count += dollar_arg_len(str, *i);// --(*i)
-        ++(*i);
+        else
+            ++count;
+        if (flag == 2)
+            return (count - 2);//pakvel e
     }
-    printf("Error 2 \n");
-    return (0);// chi pakvel 
+    return (-1);// chi pakvel 
 }
 
-int	ft_strlen(const char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
-    if (!str)
+    if (str == 0)
+    {
         return (0);
+    }
 	i = 0;
 	while (str[i] != '\0')
 		++i;
