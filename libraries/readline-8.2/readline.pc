@@ -1,4 +1,4 @@
-prefix=/home/raf/Desktop/mini/libraries/readline
+prefix=/Users/rafpetro/Desktop/mini/libraries/readline
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
