@@ -34,6 +34,7 @@ int main(int argc, char **argv, char **env)
 				printf("%s\t", tokens[i]->str);
 				++i;
 			}
+			printf("\n");
 		}
 		else
 			printf("Chi pakvel pakagicy:\n");
