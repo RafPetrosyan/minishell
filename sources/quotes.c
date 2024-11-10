@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-int check_quote(char *str)
+int check_quote(char *str, t_minishell *minishell)
 {
     int i;
     int lenght;
@@ -8,10 +8,7 @@ int check_quote(char *str)
     i = 0;
     lenght = ft_strlen(str);
     if (lenght != 0 && str[lenght - 1 ] == '\\')
-    {
-        printf("Error\n");
         return (0);
-    }
     while (i < lenght)
     {
         if (str[i] == '\'')
@@ -21,7 +18,7 @@ int check_quote(char *str)
         }
         else if (str[i] == '"')
         {
-            if (check_two_quote(str, &i) == -1)
+            if (check_two_quote(str, &i, minishell) == -1)
                 return (0);
         }
         else
@@ -30,7 +27,7 @@ int check_quote(char *str)
     return (1);//ok
 }
 
-int	check_non_quote(char *str, int *i)
+int	check_non_quote(char *str, int *i, t_minishell *minishell)
 {
     int count;
 
@@ -38,10 +35,14 @@ int	check_non_quote(char *str, int *i)
     while (str[*i] != '\0')
     {
         if (str[*i] == '$')
-            count += dollar_arg_len(str, *i);// --(*i)
+        {
+            count += dollar_arg_len(str, i, minishell);
+        }
         else
+        {
             ++count;
-        ++(*i);
+            ++(*i);
+        }
         if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"')
             return (count);
     }
@@ -69,7 +70,7 @@ int check_one_quote(char *str, int *i)
 }
 
 
-int check_two_quote(char *str, int *i)
+int check_two_quote(char *str, int *i, t_minishell *minishell)
 {
     int flag;
     int count;
@@ -82,7 +83,7 @@ int check_two_quote(char *str, int *i)
             ++flag;
         ++(*i);
         if (str[*i] == '$')
-            count += dollar_arg_len(str, *i);// --(*i)
+            count += dollar_arg_len(str, i, minishell);// --(*i)
         else
             ++count;
         if (flag == 2)

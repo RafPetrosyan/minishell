@@ -4,7 +4,7 @@ READLINE = readline
 CC = cc
 
 INC_DIRS = -I./includes -I./$(LIBS_DIR)/$(READLINE)/include
-CFLAGS = -Wall -Wextra -Werror $(INC_DIRS) -g3 -fsanitize=address
+CFLAGS = -Wextra -Werror $(INC_DIRS) #-g3 -fsanitize=address
 LIBS_DIR = libraries
 READLINE_LIB_PATH = $(LIBS_DIR)/readline/lib
 
@@ -12,35 +12,44 @@ SRCS_DIR = sources/
 
 OBJS_DIR = objects/
 
-SRCS_NAME =		minishell.c \
+SRCS_NAME = minishell.c \
 			ft_split.c \
 			quotes.c \
-			write_tokens.c
-
+			write_tokens.c\
+			env.c\
+			dollar.c
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 
-all: $(LIBS_DIR)/$(READLINE) $(NAME)
+all: config_readline $(LIBS_DIR)/$(READLINE) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -l$(READLINE) -L$(READLINE_LIB_PATH)
+	$(CC) $(CFLAGS) $^ -L$(READLINE_LIB_PATH) -lncurses -l$(READLINE) -o $@
 
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c  Makefile
-	@mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ 
+linux_minishell: $(OBJS)
+	$(CC) $(CFLAGS) $^ -L$(READLINE_LIB_PATH) -lncurses -l$(READLINE) -o $(NAME)
 
-$(LIBS_DIR)/$(READLINE):
+config_readline:
 	./$(LIBS_DIR)/config_readline readline
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c Makefile
+	@mkdir -p $(OBJS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJS)
 
 fclean: clean
-	@$(RM) $(NAME)
 	rm -rf $(LIBS_DIR)/$(READLINE)
 	rm -rf $(OBJS_DIR)
+	@$(RM) $(NAME)
 	make clean -C $(LIBS_DIR)/readline-8.2
+
+fclean_linux: clean
+	rm -rf $(LIBS_DIR)/$(READLINE)
+	rm -rf $(OBJS_DIR)
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean fclean_linux re config_readline

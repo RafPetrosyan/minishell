@@ -72,38 +72,34 @@ t_EnvList *env_to_list(char **env)
 
 int delete_env_list(t_EnvList *list)
 {
-    t_EnvList   *temp1;
-    t_EnvList   *temp2;
+    t_EnvList *temp;
 
-    temp1 = list;
-    while (temp1 != 0)
+    while (list != 0)
     {
-        temp2 = temp1->next;
-        free(temp1->key);
-        if (temp1->value != 0)
-            free(temp1->value);
-        free(temp1);
-        temp1 = temp2;
+        temp = list->next;
+        free(list->key);
+        if (list->value != 0)
+            free(list->value);
+        free(list);
+        list = temp;
     }
     return (0);
 }
 
-int maina(int argc, char **argv, char **env)
-{
-    t_EnvList *temp;
 
-    temp = env_to_list(env);
-    while (temp != 0)
-    {
-        printf("%s=", temp->key);
-        printf("%s\n", temp->value);
-        temp = temp->next;
-    }
-    delete_env_list(temp);
-    return 0;
-}
-int main(int argc, char *argv[], char **env)
-{
-    maina(argc, argv, env);
-    system("leaks a.out");
-}
+// int main(int argc, char **argv, char **env)
+// {
+//     t_EnvList *temp;
+//     t_EnvList *temp1;
+
+//     temp = env_to_list(env);
+//     temp1 = temp;
+//     while (temp != 0)
+//     {
+//         printf("%s=", temp->key);
+//         printf("%s\n", temp->value);
+//         temp = temp->next;
+//     }
+//     delete_env_list(temp1);
+//     return 0;
+// }
