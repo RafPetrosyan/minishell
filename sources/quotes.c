@@ -65,7 +65,7 @@ int check_one_quote(char *str, int *i)
         if (flag == 2)
             return (count - 2);//pakvel e
     }
-    printf("chi pakvel meky");
+    // printf("chi pakvel meky");
     return (-1);// chi pakvel 
 }
 

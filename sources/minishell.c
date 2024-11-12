@@ -37,7 +37,7 @@ int main(int argc, char **argv, char **env)
 			printf("\n");
 		}
 		else
-			printf("Chi pakvel pakagicy:\n");
+			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(str);
 	}
 	delete_env_list(minishell->env_list);

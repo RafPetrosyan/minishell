@@ -89,17 +89,17 @@ int delete_env_list(t_EnvList *list)
 
 // int main(int argc, char **argv, char **env)
 // {
-//     t_EnvList *temp;
-//     t_EnvList *temp1;
+    // t_EnvList *temp;
+    // t_EnvList *temp1;
 
-//     temp = env_to_list(env);
-//     temp1 = temp;
-//     while (temp != 0)
-//     {
-//         printf("%s=", temp->key);
-//         printf("%s\n", temp->value);
-//         temp = temp->next;
-//     }
+    // temp = env_to_list(env);
+    // temp1 = temp;
+    // while (temp != 0)
+    // {
+    //     printf("%s=", temp->key);
+    //     printf("%s\n", temp->value);
+    //     temp = temp->next;
+    // }
 //     delete_env_list(temp1);
 //     return 0;
 // }
