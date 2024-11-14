@@ -11,6 +11,12 @@ typedef struct s_token
 {
     char    *str;
     int     type;
+    // 0 = word
+    // 1 = pipe
+    // 2 = <
+    // 3 = >
+    // 4 = <<
+    // 5 = >>
 }   t_tokens;
 
 typedef struct s_EnvList
