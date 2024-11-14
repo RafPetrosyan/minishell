@@ -29,6 +29,8 @@ uname -v = #48~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Oct  7 11:24:13 UTC 2
 
 PATH: /home/raf/.local/bin/
 PATH: /home/raf/.local/bin/
+PATH: /home/raf/.local/bin/
+PATH: /home/raf/.local/bin/
 PATH: /usr/local/sbin/
 PATH: /usr/local/bin/
 PATH: /usr/sbin/
@@ -39,6 +41,8 @@ PATH: /usr/games/
 PATH: /usr/local/games/
 PATH: /snap/bin/
 PATH: /snap/bin/
+PATH: /home/raf/.local/bin/
+PATH: /home/raf/.local/bin/
 PATH: /home/raf/.local/bin/
 PATH: /home/raf/.local/bin/
 
@@ -359,200 +363,6 @@ configure:5145: checking for size_t
 configure:5145: gcc -c -g -O2  conftest.c >&5
 configure:5145: $? = 0
 configure:5145: gcc -c -g -O2  conftest.c >&5
-conftest.c: In function 'main':
-conftest.c:69:21: error: expected expression before ')' token
-   69 | if (sizeof ((size_t)))
-      |                     ^
-configure:5145: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "readline"
-| #define PACKAGE_TARNAME "readline"
-| #define PACKAGE_VERSION "8.2"
-| #define PACKAGE_STRING "readline 8.2"
-| #define PACKAGE_BUGREPORT "bug-readline@gnu.org"
-| #define PACKAGE_URL ""
-| #define HAVE_STDIO_H 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_STRING_H 1
-| #define HAVE_INTTYPES_H 1
-| #define HAVE_STDINT_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_SYS_STAT_H 1
-| #define HAVE_SYS_TYPES_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_WCHAR_H 1
-| #define STDC_HEADERS 1
-| #define _ALL_SOURCE 1
-| #define _DARWIN_C_SOURCE 1
-| #define _GNU_SOURCE 1
-| #define _HPUX_ALT_XOPEN_SOCKET_API 1
-| #define _NETBSD_SOURCE 1
-| #define _OPENBSD_SOURCE 1
-| #define _POSIX_PTHREAD_SEMANTICS 1
-| #define __STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1
-| #define __STDC_WANT_IEC_60559_BFP_EXT__ 1
-| #define __STDC_WANT_IEC_60559_DFP_EXT__ 1
-| #define __STDC_WANT_IEC_60559_FUNCS_EXT__ 1
-| #define __STDC_WANT_IEC_60559_TYPES_EXT__ 1
-| #define __STDC_WANT_LIB_EXT2__ 1
-| #define __STDC_WANT_MATH_SPEC_FUNCS__ 1
-| #define _TANDEM_SOURCE 1
-| #define __EXTENSIONS__ 1
-| #define PROTOTYPES 1
-| #define __PROTOTYPES 1
-| /* end confdefs.h.  */
-| #include <stddef.h>
-| #ifdef HAVE_STDIO_H
-| # include <stdio.h>
-| #endif
-| #ifdef HAVE_STDLIB_H
-| # include <stdlib.h>
-| #endif
-| #ifdef HAVE_STRING_H
-| # include <string.h>
-| #endif
-| #ifdef HAVE_INTTYPES_H
-| # include <inttypes.h>
-| #endif
-| #ifdef HAVE_STDINT_H
-| # include <stdint.h>
-| #endif
-| #ifdef HAVE_STRINGS_H
-| # include <strings.h>
-| #endif
-| #ifdef HAVE_SYS_TYPES_H
-| # include <sys/types.h>
-| #endif
-| #ifdef HAVE_SYS_STAT_H
-| # include <sys/stat.h>
-| #endif
-| #ifdef HAVE_UNISTD_H
-| # include <unistd.h>
-| #endif
-| int
-| main (void)
-| {
-| if (sizeof ((size_t)))
-| 	    return 0;
-|   ;
-|   return 0;
-| }
-configure:5145: result: yes
-configure:5155: checking for ssize_t
-configure:5155: gcc -c -g -O2  conftest.c >&5
-configure:5155: $? = 0
-configure:5155: gcc -c -g -O2  conftest.c >&5
-conftest.c: In function 'main':
-conftest.c:69:22: error: expected expression before ')' token
-   69 | if (sizeof ((ssize_t)))
-      |                      ^
-configure:5155: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "readline"
-| #define PACKAGE_TARNAME "readline"
-| #define PACKAGE_VERSION "8.2"
-| #define PACKAGE_STRING "readline 8.2"
-| #define PACKAGE_BUGREPORT "bug-readline@gnu.org"
-| #define PACKAGE_URL ""
-| #define HAVE_STDIO_H 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_STRING_H 1
-| #define HAVE_INTTYPES_H 1
-| #define HAVE_STDINT_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_SYS_STAT_H 1
-| #define HAVE_SYS_TYPES_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_WCHAR_H 1
-| #define STDC_HEADERS 1
-| #define _ALL_SOURCE 1
-| #define _DARWIN_C_SOURCE 1
-| #define _GNU_SOURCE 1
-| #define _HPUX_ALT_XOPEN_SOCKET_API 1
-| #define _NETBSD_SOURCE 1
-| #define _OPENBSD_SOURCE 1
-| #define _POSIX_PTHREAD_SEMANTICS 1
-| #define __STDC_WANT_IEC_60559_ATTRIBS_EXT__ 1
-| #define __STDC_WANT_IEC_60559_BFP_EXT__ 1
-| #define __STDC_WANT_IEC_60559_DFP_EXT__ 1
-| #define __STDC_WANT_IEC_60559_FUNCS_EXT__ 1
-| #define __STDC_WANT_IEC_60559_TYPES_EXT__ 1
-| #define __STDC_WANT_LIB_EXT2__ 1
-| #define __STDC_WANT_MATH_SPEC_FUNCS__ 1
-| #define _TANDEM_SOURCE 1
-| #define __EXTENSIONS__ 1
-| #define PROTOTYPES 1
-| #define __PROTOTYPES 1
-| /* end confdefs.h.  */
-| #include <stddef.h>
-| #ifdef HAVE_STDIO_H
-| # include <stdio.h>
-| #endif
-| #ifdef HAVE_STDLIB_H
-| # include <stdlib.h>
-| #endif
-| #ifdef HAVE_STRING_H
-| # include <string.h>
-| #endif
-| #ifdef HAVE_INTTYPES_H
-| # include <inttypes.h>
-| #endif
-| #ifdef HAVE_STDINT_H
-| # include <stdint.h>
-| #endif
-| #ifdef HAVE_STRINGS_H
-| # include <strings.h>
-| #endif
-| #ifdef HAVE_SYS_TYPES_H
-| # include <sys/types.h>
-| #endif
-| #ifdef HAVE_SYS_STAT_H
-| # include <sys/stat.h>
-| #endif
-| #ifdef HAVE_UNISTD_H
-| # include <unistd.h>
-| #endif
-| int
-| main (void)
-| {
-| if (sizeof ((ssize_t)))
-| 	    return 0;
-|   ;
-|   return 0;
-| }
-configure:5155: result: yes
-configure:5166: checking whether stat file-mode macros are broken
-configure:5194: gcc -c -g -O2  conftest.c >&5
-configure:5194: $? = 0
-configure:5202: result: no
-configure:5213: checking for dirent.h that defines DIR
-configure:5233: gcc -c -g -O2  conftest.c >&5
-configure:5233: $? = 0
-configure:5242: result: yes
-configure:5256: checking for library containing opendir
-configure:5286: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5286: $? = 0
-configure:5306: result: none required
-configure:5378: checking for fcntl
-configure:5378: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5378: $? = 0
-configure:5378: result: yes
-configure:5384: checking for gettimeofday
-configure:5384: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5384: $? = 0
-configure:5384: result: yes
-configure:5390: checking for kill
-configure:5390: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5390: $? = 0
-configure:5390: result: yes
-configure:5396: checking for lstat
-configure:5396: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5396: $? = 0
-configure:5396: result: yes
-configure:5402: checking for pselect
-configure:5402: gcc -o conftest -g -O2   conftest.c  >&5
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -582,14 +392,8 @@ ac_cv_env_host_alias_set=
 ac_cv_env_host_alias_value=
 ac_cv_env_target_alias_set=
 ac_cv_env_target_alias_value=
-ac_cv_func_fcntl=yes
-ac_cv_func_gettimeofday=yes
-ac_cv_func_kill=yes
-ac_cv_func_lstat=yes
-ac_cv_header_dirent_dirent_h=yes
 ac_cv_header_inttypes_h=yes
 ac_cv_header_minix_config_h=no
-ac_cv_header_stat_broken=no
 ac_cv_header_stdint_h=yes
 ac_cv_header_stdio_h=yes
 ac_cv_header_stdlib_h=yes
@@ -614,10 +418,8 @@ ac_cv_prog_cc_stdc=
 ac_cv_prog_gcc_traditional=no
 ac_cv_prog_make_make_set=yes
 ac_cv_safe_to_define___extensions__=yes
-ac_cv_search_opendir='none required'
 ac_cv_should_define__xopen_source=no
-ac_cv_type_size_t=yes
-ac_cv_type_ssize_t=yes
+ac_cv_type_size_t=no
 
 ## ----------------- ##
 ## Output variables. ##
@@ -762,11 +564,6 @@ target_alias=''
 #define __EXTENSIONS__ 1
 #define PROTOTYPES 1
 #define __PROTOTYPES 1
-#define HAVE_DIRENT_H 1
-#define HAVE_FCNTL 1
-#define HAVE_GETTIMEOFDAY 1
-#define HAVE_KILL 1
-#define HAVE_LSTAT 1
 
 configure: caught signal 2
 configure: exit 1

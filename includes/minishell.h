@@ -55,4 +55,10 @@ void    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minish
 
 /////////       libft       /////////
 
+
+
+////////        xary        ////////
+
+int check_operator(char *str, int *i, t_minishell *minishell);
+
 #endif

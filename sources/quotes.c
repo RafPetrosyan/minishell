@@ -27,9 +27,32 @@ int check_quote(char *str, t_minishell *minishell)
     return (1);//ok
 }
 
+// int	check_non_quote(char *str, int *i, t_minishell *minishell)
+// {
+//     int count;
+
+//     count = 0;
+//     while (str[*i] != '\0')
+//     {
+//         if (str[*i] == '$')
+//         {
+//             count += dollar_arg_len(str, i, minishell);
+//         }
+//         else
+//         {
+//             ++count;
+//             ++(*i);
+//         }
+//         if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"' || str[*i] == '|')
+//             return (count);
+//     }
+//     return (count);
+// }
+
 int	check_non_quote(char *str, int *i, t_minishell *minishell)
 {
     int count;
+    int operator;
 
     count = 0;
     while (str[*i] != '\0')
@@ -38,12 +61,14 @@ int	check_non_quote(char *str, int *i, t_minishell *minishell)
         {
             count += dollar_arg_len(str, i, minishell);
         }
+        else if (operator = check_operator(str, i, minishell))
+            return (operator);
         else
         {
             ++count;
             ++(*i);
         }
-        if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"')
+        if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"' || str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
             return (count);
     }
     return (count);
@@ -65,7 +90,7 @@ int check_one_quote(char *str, int *i)
         if (flag == 2)
             return (count - 2);//pakvel e
     }
-    // printf("chi pakvel meky");
+    printf("chi pakvel meky");
     return (-1);// chi pakvel 
 }
 

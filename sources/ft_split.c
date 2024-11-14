@@ -1,4 +1,20 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
+
+int check_operator(char *str, int *i, t_minishell *minishell)
+{
+    if (str[*i] == '|' && str[*i + 1] != '|' && ++(*i))
+        return (1);
+    else if (str[*i] == '<' && str[*i + 1] != '<' && ++(*i))
+        return (1);
+    else if (str[*i] == '>' && str[*i + 1] != '>' && ++(*i))
+        return (1);
+    else if (str[*i] == '<' && str[*i + 1] == '<' && ((*i) += 2))
+        return (2);
+    else if (str[*i] == '>' && str[*i + 1] == '>' && ((*i) += 2))
+        return (2);
+    return (0);
+}
+
 
 int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 {
@@ -15,7 +31,9 @@ int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 			count += (check_two_quote(str, i, minishell));
 		else
 			count += check_non_quote(str, i, minishell);
-		if (str[*i] == ' ')
+		if (str[*i] == ' ' || str[*i] == '|' || str[*i] == '<' || str[*i] =='>')
+			return (count);
+		if (str[*i - 1] == '|' || str[*i - 1] == '<' || str[*i - 1] == '>')
 			return (count);
 	}
 	return (count);

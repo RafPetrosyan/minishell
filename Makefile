@@ -4,7 +4,7 @@ READLINE = readline
 CC = cc
 
 INC_DIRS = -I./includes -I./$(LIBS_DIR)/$(READLINE)/include
-CFLAGS = -Wextra -Werror $(INC_DIRS) #-g3 -fsanitize=address
+CFLAGS = -Wextra -Werror -g3 $(INC_DIRS) #-g3 -fsanitize=address
 LIBS_DIR = libraries
 READLINE_LIB_PATH = $(LIBS_DIR)/readline/lib
 
@@ -21,7 +21,7 @@ SRCS_NAME = minishell.c \
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 
-all: config_readline $(LIBS_DIR)/$(READLINE) $(NAME)
+all:  $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -L$(READLINE_LIB_PATH) -lncurses -l$(READLINE) -o $@
