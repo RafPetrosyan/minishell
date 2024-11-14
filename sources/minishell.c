@@ -20,7 +20,8 @@ int main(int argc, char **argv, char **env)
 		str = readline("\033[38;5;43mMinishell:\033[0;000m ");
 		if (!str)
 			return (0);
-		add_history(str);
+		if (str[i] != '\0')
+			add_history(str);
 		if (check_quote(str, minishell) == 1)
 		{
 			arr = malloc_word_len_arr(str, minishell);
@@ -28,10 +29,10 @@ int main(int argc, char **argv, char **env)
 				printf("token[%d] lenght = %d\n", i, arr[i++]);
 			tokens = split_tokens(str, 0, minishell);
 			i = 0;
-			printf("tokens: ");
+			printf("tokens: \n");
 			while (tokens[i] != 0)
 			{
-				printf("%s\t", tokens[i]->str);
+				printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
 				++i;
 			}
 			printf("\n");

@@ -18,7 +18,6 @@ void	write_operator(char *str, int *i, t_minishell *minishell, t_tokens *token, 
         token->str[(*j)++] = str[(*i)++]; 
         token->str[(*j)++] = str[(*i)++]; 
 	}
-    return ;
 }
 
 void	write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
@@ -49,6 +48,20 @@ void	write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *min
 	arr[arr_i]->str[j] = '\0';
 }
 
+void    set_type(char *str, int *i, t_tokens *token)
+{
+    if (str[*i] == '|' && str[*i + 1] != '|')
+        token->type = 1;
+    else if (str[(*i)] == '<' && str[(*i) + 1] != '<')
+        token->type = 2; 
+    else if (str[*i] == '>' && str[*i + 1] != '>')
+        token->type = 3; 
+    else if (str[*i] == '<' && str[*i + 1] == '<')
+        token->type = 4;
+    else if (str[*i] == '>' && str[*i + 1] == '>')
+        token->type = 5;
+}
+
 void	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *minishell)
 {
     int k;
@@ -60,6 +73,7 @@ void	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *m
             write_dollar(str, i, token, minishell, j);
         else if (check_operator(str, &k, minishell) != 0)
         {
+            set_type(str, i, token);
             write_operator(str, i, minishell, token, j);
             return ;
         }
@@ -69,8 +83,11 @@ void	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *m
             ++(*i);
             ++(*j);
         }
-        if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"' || str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+        if (str[*i] == ' ' || str[*i] == '\'' || str[*i] == '"' || str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+        {
+            token->type = 0;
             return ;
+        }
     }
 }
 

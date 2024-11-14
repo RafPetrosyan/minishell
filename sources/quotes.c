@@ -27,27 +27,7 @@ int check_quote(char *str, t_minishell *minishell)
     return (1);//ok
 }
 
-// int	check_non_quote(char *str, int *i, t_minishell *minishell)
-// {
-//     int count;
 
-//     count = 0;
-//     while (str[*i] != '\0')
-//     {
-//         if (str[*i] == '$')
-//         {
-//             count += dollar_arg_len(str, i, minishell);
-//         }
-//         else
-//         {
-//             ++count;
-//             ++(*i);
-//         }
-//         if (str[*i] == ' ' || str[*i] == '\0' || str[*i] == '\'' || str[*i] == '"' || str[*i] == '|')
-//             return (count);
-//     }
-//     return (count);
-// }
 
 int	check_non_quote(char *str, int *i, t_minishell *minishell)
 {
