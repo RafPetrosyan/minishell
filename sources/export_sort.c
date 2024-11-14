@@ -39,25 +39,3 @@ void    print_export(t_EnvList  *env_list)
         verjiny = min;
     }
 }
-
-// #include <stdio.h>
-
-// int main(int argc, char **argv, char **env)
-// {
-//     t_EnvList *list = env_to_list(env);
-//     t_EnvList *temp;
-//     t_EnvList *temp1;
-
-//     temp = list;
-//     temp1 = temp;
-//     while (temp != 0)
-//     {
-//         printf("%s=", temp->key);
-//         printf("%s\n", temp->value);
-//         temp = temp->next;
-//     }
-//     printf("__________________________________________\n");
-//     print_export(list);
-//     delete_env_list(list);
-//     return (0);
-// }

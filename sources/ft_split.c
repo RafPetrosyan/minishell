@@ -2,7 +2,7 @@
 
 int check_operator(char *str, int *i, t_minishell *minishell)
 {
-    if (str[*i] == '|' && str[*i + 1] != '|' && ++(*i))
+    if (str[*i] == '|' && ++(*i))
         return (1);
     else if (str[*i] == '<' && str[*i + 1] != '<' && ++(*i))
         return (1);

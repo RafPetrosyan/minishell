@@ -2,7 +2,7 @@
 
 void	write_operator(char *str, int *i, t_minishell *minishell, t_tokens *token, int *j)
 {
-	if (str[*i] == '|' && str[*i + 1] != '|')
+	if (str[*i] == '|')
         token->str[(*j)++] = str[(*i)++];
     else if (str[(*i)] == '<' && str[(*i) + 1] != '<')
         token->str[(*j)++] = str[(*i)++]; 
@@ -50,7 +50,7 @@ void	write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *min
 
 void    set_type(char *str, int *i, t_tokens *token)
 {
-    if (str[*i] == '|' && str[*i + 1] != '|')
+    if (str[*i] == '|')
         token->type = 1;
     else if (str[(*i)] == '<' && str[(*i) + 1] != '<')
         token->type = 2; 
