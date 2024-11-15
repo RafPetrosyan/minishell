@@ -85,12 +85,18 @@ int check_two_quote(char *str, int *i, t_minishell *minishell)
     while (str[*i] != '\0')
     {
         if (str[*i] == '"')
+        {
             ++flag;
-        ++(*i);
-        if (str[*i] == '$')
-            count += dollar_arg_len(str, i, minishell) + 1;// --(*i)
-        else
+            ++(*i);
             ++count;
+        }
+        else if (str[*i] == '$')
+            count += dollar_arg_len(str, i, minishell);// --(*i)
+        else
+        {
+            ++count;
+            ++(*i);
+        }
         if (flag == 2)
             return (count - 2);//pakvel e
     }
