@@ -105,12 +105,14 @@ void write_one_quote(char *str, int *i, t_tokens *token, int *j)
             continue;
         }
         if (flag == 2)
+        {
+            token->type = 0;
             return ;
+        }
         token->str[*j] = str[*i];
         ++(*i);
         ++(*j);
     }
-    token->type = 0;
 }
 
 
@@ -128,7 +130,10 @@ void write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *mi
             continue;
         }
         if (flag == 2)
+        {
+            token->type = 0;
             return ;
+        }
         if (str[*i] == '$')
             write_dollar(str, i, token, minishell, j);
         else
@@ -138,5 +143,4 @@ void write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *mi
             ++(*i);
         }
     }
-    token->type = 0;
 }
