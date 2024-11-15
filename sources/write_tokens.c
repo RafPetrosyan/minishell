@@ -53,9 +53,9 @@ void    set_type(char *str, int *i, t_tokens *token)
     if (str[*i] == '|')
         token->type = 1;
     else if (str[(*i)] == '<' && str[(*i) + 1] != '<')
-        token->type = 2; 
+        token->type = 2;
     else if (str[*i] == '>' && str[*i + 1] != '>')
-        token->type = 3; 
+        token->type = 3;
     else if (str[*i] == '<' && str[*i + 1] == '<')
         token->type = 4;
     else if (str[*i] == '>' && str[*i + 1] == '>')
@@ -110,6 +110,7 @@ void write_one_quote(char *str, int *i, t_tokens *token, int *j)
         ++(*i);
         ++(*j);
     }
+    token->type = 0;
 }
 
 
@@ -137,6 +138,5 @@ void write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *mi
             ++(*i);
         }
     }
+    token->type = 0;
 }
-
-
