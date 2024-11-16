@@ -88,7 +88,6 @@ t_tokens **split_tokens(char *str, int i, t_minishell *minishell)
 	tokens_count = ft_get_word_count(str, minishell);
 	len_arr = malloc_word_len_arr(str, minishell);
 	arr_i = 0;
-	printf("tokens count: %d\n", tokens_count);
 	arr = (t_tokens**)malloc((tokens_count + 1) * sizeof(t_tokens *));
 	if (arr == 0)
 		return (0);

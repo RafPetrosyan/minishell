@@ -17,7 +17,9 @@ SRCS_NAME = minishell.c \
 			quotes.c \
 			write_tokens.c\
 			env.c\
-			dollar.c
+			dollar.c\
+			builtins.c\
+			export_sort.c
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 

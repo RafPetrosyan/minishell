@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
 
 # include <readline/history.h>
@@ -66,5 +67,17 @@ void    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minish
 ////////        xary        ////////
 
 int check_operator(char *str, int *i, t_minishell *minishell);
+
+
+int ft_strcmp(char *str1, char *str2);
+
+int ft_echo(t_tokens **tokens, int flag, int i, int j);
+int ft_env(t_minishell *minishell);
+int builtins(t_tokens **tokens, t_minishell *minishell);
+
+
+///////         token tpel    ////////
+
+void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens);
 
 #endif
