@@ -22,8 +22,8 @@ int main(int argc, char **argv, char **env)
 		if (check_quote(str, minishell) == 1)
 		{
 			tokens = split_tokens(str, 0, minishell);
-			// print_tokens_info(str, minishell, tokens);
-			// printf("--------------------------------------------------\n");
+			print_tokens_info(str, minishell, tokens);
+			printf("--------------------------------------------------\n");
 			builtins(tokens, minishell);
 		}
 		else

@@ -25,7 +25,7 @@ int find_to_env(char *str, int *i, t_EnvList *env)
         while (env->key[j] == str[*i + j])
         {
             if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' ' || str[*i + j + 1] == '\'' 
-                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '$'))
+                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '$' || str[*i + j + 1] == '/'))
             {
                 *i += j + 1;
                 return (ft_strlen(env->value));
@@ -135,7 +135,7 @@ int find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *k
         {
             if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' '
                 || str[*i + j + 1] == '\'' || str[*i + j + 1] == '"'
-                || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '='))
+                || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '=' || str[*i + j + 1] == '/'))
             {
                 ft_strlcpy(token->str, env->value, ft_strlen(env->value) + 1, k);
                 *i += j + 1;
