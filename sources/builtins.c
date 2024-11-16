@@ -2,28 +2,32 @@
 
 int ft_echo(t_tokens **tokens, int flag, int i, int j);
 
-int check_n_flag(t_tokens *token, int *i)
+int check_n_flag(t_tokens **token, int *i)
 {
     int j;
+    int flag;
 
-    j = 0;
-    if (token->type == 0)
+    flag = 1;
+    while (token[*i] != 0 && token[*i]->type == 0)
     {
-        if (token->str[j] == '-')
+        j = 0;
+        if (token[*i]->str[j] == '-')
         {
             ++j;
-            while (token->str[j] == 'n')
+            while (token[*i]->str[j] == 'n')
                 ++j;
-            if (token->str[j] == '\0')
+            if (token[*i]->str[j] == '\0')
             {
                 ++(*i);
-                return (0);
+                flag = 0;
             }
             else
-                return (1);
+                return (flag);
         }
+        else
+            return (flag);
     }
-    return (1);
+    return (flag);
 }
 
 int builtins(t_tokens **tokens, t_minishell *minishell)
@@ -50,7 +54,7 @@ int ft_echo(t_tokens **tokens, int flag, int i, int j)
         write(1, "\n", 1);
         return (0);
     }
-    flag = check_n_flag(tokens[i], &i);
+    flag = check_n_flag(tokens, &i);
     while (tokens[i] != 0 && tokens[i]->type == 0)
     {
         j = 0;
