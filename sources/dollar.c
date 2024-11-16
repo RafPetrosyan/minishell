@@ -25,7 +25,7 @@ int find_to_env(char *str, int *i, t_EnvList *env)
         while (env->key[j] == str[*i + j])
         {
             if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' ' || str[*i + j + 1] == '\'' 
-                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$'))
+                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '$'))
             {
                 *i += j + 1;
                 return (ft_strlen(env->value));
@@ -38,7 +38,7 @@ int find_to_env(char *str, int *i, t_EnvList *env)
         ++(*i);
     return (0);
 }
-
+                                                                //dollaric
 int	dollar_arg_len(char *str, int *index, t_minishell *minishell)
 {
     ++(*index);
@@ -53,33 +53,81 @@ int	dollar_arg_len(char *str, int *index, t_minishell *minishell)
 	return (find_to_env(str, index, minishell->env_list));
 }
 
-void    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j)
+int	dollar_arg_len_quote(char *str, int *index, t_minishell *minishell)
 {
+    ++(*index);
+    if (str[*index] == '\0' || str[*index] == '\\' || str[*index] == ' ' || str[*index] == '\'' || str[*index] == '"')
+        return (1);
+    if (str[*index] == '0' && ++(*index))
+        return (4);
+    if (str[*index] >= '1' && str[*index] <= '9' && ++(*index))
+        return (0);
+	return (find_to_env(str, index, minishell->env_list));
+}
+
+int    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j)
+{
+    int count;
+
+    count = 0;
     ++(*index);
     if (str[*index] == '\0' || (str[*index] == '\\' || str[*index] == ' '))
     {
         token->str[*j] = '$';
+        ++count;
         ++(*j);
-        return ;
+        return (count);
     }
     ////// $$ = 22701
     if (str[*index] == '0' && ++(*index))
     {
         ft_strlcpy(token->str + *j, "bash", 5, j);
-        return ;
+        count += 4;
+        return (count);
     }
     if (str[*index] >= '1' && str[*index] <= '9' && ++(*index))
-        return ;
+        return (count);
     if (str[*index] == '\'' || str[*index] == '"')
-        return;
-	find_to_env_write(str, index, minishell->env_list, token, j);
+        return (count);
+	count += find_to_env_write(str, index, minishell->env_list, token, j);
+    return (count);
 }
 
-void find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *k)
+int    write_dollar_quote(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j)
+{
+    int count;
+
+    count = 0;
+    ++(*index);
+    if (str[*index] == '\0' || (str[*index] == '\\' || str[*index] == ' ' || str[*index] == '\'' || str[*index] == '"'))
+    {
+        token->str[*j] = '$';
+        ++count;
+        ++(*j);
+        return (count);
+    }
+    ////// $$ = 22701
+    if (str[*index] == '0' && ++(*index))
+    {
+        ft_strlcpy(token->str + *j, "bash", 5, j);
+        count += 4;
+        return (count);
+    }
+    if (str[*index] >= '1' && str[*index] <= '9' && ++(*index))
+        return (count);
+    if (str[*index] == '\'' || str[*index] == '"')
+        return (count);
+	count += find_to_env_write(str, index, minishell->env_list, token, j);
+    return (count);
+}
+
+int find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *k)
 {
     int j;
     int flag;
+    int count;
 
+    count = 0;
     while (env != 0)
     {
         j = 0;
@@ -87,11 +135,12 @@ void find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *
         {
             if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' '
                 || str[*i + j + 1] == '\'' || str[*i + j + 1] == '"'
-                || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$'))
+                || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '='))
             {
                 ft_strlcpy(token->str, env->value, ft_strlen(env->value) + 1, k);
                 *i += j + 1;
-                return ;
+                count += ft_strlen(env->value);
+                return (count);
             }
             ++j;
         }
@@ -99,5 +148,5 @@ void find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *
     }
     while (str[*i] != ' ' && str[*i] != '\'' && str[*i] != '"' && str[*i] != '\0' && str[*i] != '\\' && str[*i] != '$')
         ++(*i);
-    return ;
+    return (count);
 }

@@ -91,7 +91,7 @@ int check_two_quote(char *str, int *i, t_minishell *minishell)
             ++count;
         }
         else if (str[*i] == '$')
-            count += dollar_arg_len(str, i, minishell);// --(*i)
+            count += dollar_arg_len_quote(str, i, minishell);// --(*i)
         else
         {
             ++count;
