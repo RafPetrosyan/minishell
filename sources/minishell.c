@@ -23,7 +23,6 @@ int main(int argc, char **argv, char **env)
 		{
 			tokens = split_tokens(str, 0, minishell);
 			print_tokens_info(str, minishell, tokens);
-			printf("--------------------------------------------------\n");
 			builtins(tokens, minishell);
 		}
 		else
@@ -50,5 +49,6 @@ void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
 		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
 		++i;
 	}
-	free (arr);
+	free(arr);
+	printf("--------------------------------------------------\n");
 }

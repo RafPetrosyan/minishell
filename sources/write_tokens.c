@@ -146,12 +146,12 @@ int write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *min
         {
             ++(*i);
             ++flag;
+            if (flag == 2)
+            {
+                token->type = 0;
+                return (count);
+            }
             continue;
-        }
-        if (flag == 2)
-        {
-            token->type = 0;
-            return (count);
         }
         if (str[*i] == '$')
             count += write_dollar_quote(str, i, token, minishell, j);

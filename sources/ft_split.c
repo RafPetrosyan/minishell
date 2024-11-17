@@ -1,20 +1,19 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-int check_operator(char *str, int *i, t_minishell *minishell)
+int	check_operator(char *str, int *i, t_minishell *minishell)
 {
-    if (str[*i] == '|' && ++(*i))
-        return (1);
-    else if (str[*i] == '<' && str[*i + 1] != '<' && ++(*i))
-        return (1);
-    else if (str[*i] == '>' && str[*i + 1] != '>' && ++(*i))
-        return (1);
-    else if (str[*i] == '<' && str[*i + 1] == '<' && ((*i) += 2))
-        return (2);
-    else if (str[*i] == '>' && str[*i + 1] == '>' && ((*i) += 2))
-        return (2);
-    return (0);
+	if (str[*i] == '|' && ++(*i))
+		return (1);
+	else if (str[*i] == '<' && str[*i + 1] != '<' && ++(*i))
+		return (1);
+	else if (str[*i] == '>' && str[*i + 1] != '>' && ++(*i))
+		return (1);
+	else if (str[*i] == '<' && str[*i + 1] == '<' && ((*i) += 2))
+		return (2);
+	else if (str[*i] == '>' && str[*i + 1] == '>' && ((*i) += 2))
+		return (2);
+	return (0);
 }
-
 
 int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 {
@@ -31,9 +30,11 @@ int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 			count += (check_two_quote(str, i, minishell));
 		else
 			count += check_non_quote(str, i, minishell);
-		if (str[*i] == ' ' || str[*i] == '|' || str[*i] == '<' || str[*i] =='>')
+		if (str[*i] == ' ' || str[*i] == '|'
+			|| str[*i] == '<' || str[*i] == '>')
 			return (count);
-		if (str[*i - 1] == '|' || str[*i - 1] == '<' || str[*i - 1] == '>')
+		if (str[*i - 1] == '|' || str[*i - 1] == '<'
+			|| str[*i - 1] == '>')
 			return (count);
 	}
 	return (count);
@@ -41,10 +42,10 @@ int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 
 int	*malloc_word_len_arr(char *str, t_minishell *minishell)
 {
-	int *arr;
-	int count;
+	int	*arr;
+	int	count;
 	int	i;
-	int arr_i;
+	int	arr_i;
 	int	word_len;
 
 	i = 0;
@@ -52,7 +53,7 @@ int	*malloc_word_len_arr(char *str, t_minishell *minishell)
 	count = ft_get_word_count(str, minishell);
 	arr = malloc((count + 1) * sizeof(int));
 	if (arr == 0)
-		return (0);//!printf("Memory allocation error !"));// azatel hishoghutyuny
+		return (0);
 	while (arr_i < count)
 	{
 		word_len = ft_get_word_len(str, &i, minishell);
@@ -67,10 +68,12 @@ int	ft_get_word_count(char *str, t_minishell *minishell)
 {
 	int	i;
 	int	count;
+	int	len;
 
 	i = 0;
 	count = 0;
-	while (i < ft_strlen(str))
+	len = ft_strlen(str);
+	while (i < len)
 	{
 		if (ft_get_word_len(str, &i, minishell) != 0)
 			++count;
@@ -78,17 +81,17 @@ int	ft_get_word_count(char *str, t_minishell *minishell)
 	return (count);
 }
 
-t_tokens **split_tokens(char *str, int i, t_minishell *minishell)
+t_tokens	**split_tokens(char *str, int i, t_minishell *minishell)
 {
 	t_tokens	**arr;
-	int	*len_arr;
-	int	tokens_count;
-	int	arr_i;
+	int			*len_arr;
+	int			tokens_count;
+	int			arr_i;
 
 	tokens_count = ft_get_word_count(str, minishell);
 	len_arr = malloc_word_len_arr(str, minishell);
 	arr_i = 0;
-	arr = (t_tokens**)malloc((tokens_count + 1) * sizeof(t_tokens *));
+	arr = (t_tokens **)malloc((tokens_count + 1) * sizeof(t_tokens *));
 	if (arr == 0)
 		return (0);
 	while (arr_i < tokens_count)
@@ -106,5 +109,3 @@ t_tokens **split_tokens(char *str, int i, t_minishell *minishell)
 	free(len_arr);
 	return (arr);
 }
-
-
