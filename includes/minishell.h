@@ -83,4 +83,10 @@ int builtins(t_tokens **tokens, t_minishell *minishell);
 
 void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens);
 
+
+//////          export          /////
+
+void	print_export(t_EnvList *env_list);
+int		ft_export(t_EnvList *env);
+
 #endif

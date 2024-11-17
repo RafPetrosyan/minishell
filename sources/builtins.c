@@ -38,8 +38,8 @@ int builtins(t_tokens **tokens, t_minishell *minishell)
         return (ft_echo(tokens, 1, 1, 0));
     else if (ft_strcmp(tokens[0]->str, "env") == 0)
         return (ft_env(minishell));
-    // else if (ft_strcmp(tokens->str, "export") == 0)
-    //     ft_export();
+    else if (ft_strcmp(tokens[0]->str, "export") == 0)
+        ft_export(minishell->env_list);
     // else if (ft_strcmp(tokens->str, "pwd") == 0)
     //     ft_pwd();
     else
@@ -86,4 +86,9 @@ int ft_env(t_minishell *minishell)
         temp = temp->next;
     }
     return (0);
+}
+
+int	ft_export(t_EnvList *env)
+{
+	print_export(env);
 }
