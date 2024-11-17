@@ -19,7 +19,8 @@ SRCS_NAME = minishell.c \
 			env.c\
 			dollar.c\
 			builtins.c\
-			export_sort.c
+			export_sort.c\
+			libft.c
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 

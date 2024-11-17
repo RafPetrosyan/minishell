@@ -35,6 +35,7 @@ t_EnvList	*add_list(char *str)
 	j = 0;
 	len = get_key_len(str);
 	node = malloc(sizeof(t_EnvList));
+	node->next = 0;
 	node->key = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
@@ -43,12 +44,17 @@ t_EnvList	*add_list(char *str)
 	}
 	node->key[i] = '\0';
 	len = get_value_len(str, i);
-	node->value = malloc((len + 1) * sizeof(char));
+	if (str[i] == '=')
+		node->value = malloc((len + 1) * sizeof(char));
+	else
+	{
+		node->value = 0;
+		return (node);
+	}
 	++i;
 	while (j < len)
 		node->value[j++] = str[i++];
 	node->value[j] = '\0';
-	node->next = 0;
 	return (node);
 }
 

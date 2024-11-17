@@ -62,10 +62,14 @@ int     dollar_arg_len_quote(char *str, int *index, t_minishell *minishell);
 int    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
 int    write_dollar_quote(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
 
+/////////		env			/////////
+
+t_EnvList	*add_list(char *str);
 
 /////////       libft       /////////
 
-
+size_t	ft_strlcpy(char *dst, char *src, size_t size, int *j);
+char	*ft_strdup(char *s);
 
 ////////        xary        ////////
 
@@ -87,6 +91,7 @@ void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens);
 //////          export          /////
 
 void	print_export(t_EnvList *env_list);
-int		ft_export(t_EnvList *env);
+int		ft_export(t_EnvList *env, t_tokens **tokens);
+t_EnvList *find_to_env_export(char *str, t_EnvList *env, int *j);
 
 #endif
