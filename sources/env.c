@@ -10,12 +10,13 @@ int	get_key_len(char *str)
 	return (i);
 }
 
-int	get_value_len(char *str, int i)
+int	get_value_len1(char *str, int i)
 {
 	int	count;
 
 	count = 0;
-	++i;
+	if (str[i] != '\0')
+		++i;
 	while (str[i] != '\0')
 	{
 		++count;
@@ -43,7 +44,7 @@ t_EnvList	*add_list(char *str)
 		++i;
 	}
 	node->key[i] = '\0';
-	len = get_value_len(str, i);
+	len = get_value_len1(str, i);
 	if (str[i] == '=')
 		node->value = malloc((len + 1) * sizeof(char));
 	else

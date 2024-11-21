@@ -99,6 +99,7 @@ t_tokens	**split_tokens(char *str, int i, t_minishell *minishell)
 	arr_i = 0;
 	while (arr_i < tokens_count)
 	{
+		arr[arr_i]->type = 0;
 		arr[arr_i]->str = malloc((len_arr[arr_i] + 1) * sizeof(char));
 		if (arr[arr_i]->str == 0)
 			return (0);

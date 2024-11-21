@@ -25,7 +25,7 @@ int find_to_env(char *str, int *i, t_EnvList *env)
         while (env->key[j] == str[*i + j])
         {
             if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' ' || str[*i + j + 1] == '\'' 
-                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '/' || str[*i + j + 1] == '='))
+                || str[*i + j + 1] == '"' || str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '$' || str[*i + j + 1] == '/'))
             {
                 *i += j + 1;
                 return (ft_strlen(env->value));

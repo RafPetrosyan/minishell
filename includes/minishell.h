@@ -55,12 +55,12 @@ int delete_env_list(t_EnvList *list);
 
 /////////       dollar       /////////
 
-int     find_to_env(char *str, int *i, t_EnvList *env);
-int    find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *k);
-int     dollar_arg_len(char *str, int *index, t_minishell *minishell);
-int     dollar_arg_len_quote(char *str, int *index, t_minishell *minishell);
-int    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
-int    write_dollar_quote(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
+int		find_to_env(char *str, int *i, t_EnvList *env);
+int		find_to_env_write(char *str, int *i, t_EnvList *env, t_tokens *token, int *k);
+int		dollar_arg_len(char *str, int *index, t_minishell *minishell);
+int		dollar_arg_len_quote(char *str, int *index, t_minishell *minishell);
+int		write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
+int		write_dollar_quote(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j);
 
 /////////		env			/////////
 
@@ -73,14 +73,15 @@ char	*ft_strdup(char *s);
 
 ////////        xary        ////////
 
-int check_operator(char *str, int *i, t_minishell *minishell);
+int		check_operator(char *str, int *i, t_minishell *minishell);
+void	print_env_keys(t_EnvList *temp);
 
 
 int ft_strcmp(char *str1, char *str2);
 
-int ft_echo(t_tokens **tokens, int flag, int i, int j);
-int ft_env(t_minishell *minishell);
-int builtins(t_tokens **tokens, t_minishell *minishell);
+int	ft_echo(t_tokens **tokens, int flag, int i, int j);
+int	ft_env(t_minishell *minishell);
+int	builtins(t_tokens **tokens, t_minishell *minishell);
 
 
 ///////         token tpel    ////////
@@ -91,7 +92,18 @@ void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens);
 //////          export          /////
 
 void	print_export(t_EnvList *env_list);
-int		ft_export(t_EnvList *env, t_tokens **tokens);
+int		ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress);
 t_EnvList *find_to_env_export(char *str, t_EnvList *env, int *j);
+
+
+//////			builtin			/////
+int		ft_unset(t_EnvList **env, t_tokens **tokens);
+void	ft_unset_helper(t_EnvList *unset_node, t_EnvList **env);
+int		ft_pwd();
+int		ft_cd(t_EnvList *env, t_tokens **tokens);
+int		cd_tilda(t_EnvList *env, t_tokens *token);
+int		cd_no_arguments(t_EnvList *env);
+int		cd_minus(t_EnvList *env, t_tokens *token);
+int	cd_non_symbol(t_EnvList *env, t_tokens *token);
 
 #endif
