@@ -35,10 +35,13 @@ void	print_export(t_EnvList *env_list)
 		}
 		if (min == 0)
 			break ;
-		printf("declare -x %s", min->key);
-		if (min->value != 0)
-			printf("=\"%s\"" , min->value);
-		printf("\n");
+		if (min->type == 0)
+		{
+			printf("declare -x %s", min->key);
+			if (min->value != 0)
+				printf("=\"%s\"" , min->value);
+			printf("\n");
+		}
 		verjiny = min;
 	}
 }

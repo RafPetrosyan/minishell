@@ -94,7 +94,7 @@ void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens);
 
 void	print_export(t_EnvList *env_list);
 int		ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress);
-t_EnvList *find_to_env_export(char *str, t_EnvList *env, int *j);
+t_EnvList *find_to_env_export(char *str, t_EnvList *env, int *i);
 
 
 //////			builtin			/////

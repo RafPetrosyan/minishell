@@ -37,6 +37,7 @@ t_EnvList	*add_list(char *str)
 	len = get_key_len(str);
 	node = malloc(sizeof(t_EnvList));
 	node->next = 0;
+	node->type = 1;
 	node->key = malloc((len + 1) * sizeof(char));
 	while (i < len)
 	{
@@ -71,6 +72,7 @@ t_EnvList	*env_to_list(char **env)
 	while (env[i] != 0)
 	{
 		temp->next = add_list(env[i++]);
+		temp->next->type = 0;
 		temp = temp->next;
 	}
 	return (first);

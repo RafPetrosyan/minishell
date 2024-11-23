@@ -87,7 +87,7 @@ int ft_env(t_minishell *minishell)
 	temp = minishell->env_list;
 	while (temp != 0)
 	{
-		if (temp->value != 0)
+		if (temp->value != 0 && temp->type == 0)
 		{
 			printf("%s=", temp->key);
 			printf("%s\n", temp->value);
@@ -104,19 +104,17 @@ int	ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress)// funkc
 	t_EnvList	*export_node;
 
 	i = 1;
+	j = 0;
 	if (tokens[1] == 0)
 	{
 		print_export(env);
 		return (0);
 	}
-	if (env == 0)
-	{
-		*env_adress = add_list(tokens[i]->str);
-		++i;
-	}
 	while (tokens[i] != 0)
 	{
 		ft_export_helper(tokens[i]->str, env);
+		export_node = find_to_env_export(tokens[i]->str, env, &j);
+		export_node->type = 0;
 		++i;
 	}
 	return (0);
@@ -135,7 +133,7 @@ int	ft_export_helper(char *str, t_EnvList *env)
 		{
 			if (export_node->value != 0)
 				free(export_node->value);
-			export_node->value =  ft_strdup(&(str[j + 1]));
+			export_node->value = ft_strdup(&(str[j + 1]));
 		}
 	}
 	else
