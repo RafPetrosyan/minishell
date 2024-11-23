@@ -20,13 +20,13 @@ typedef struct s_token
     // 5 = >>
 }   t_tokens;
 
-typedef struct s_EnvList
+typedef struct	s_EnvList
 {
-    char    *key;
-    char    *value;
-    struct s_EnvList *next;
-    int		type;// 0-print  1-nonprint
-}   t_EnvList;
+	char	*key;
+	char	*value;
+	struct	s_EnvList *next;
+	int		type;// 0-print  1-nonprint
+}	t_EnvList;
 
 typedef struct s_minishell
 {

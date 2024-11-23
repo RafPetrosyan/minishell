@@ -25,6 +25,7 @@ int main(int argc, char **argv, char **env)
 			// print_tokens_info(str, minishell, tokens);
 			if (builtins(tokens, minishell) == 2)
 				break ;
+			delete_tokens(tokens);
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
@@ -33,6 +34,7 @@ int main(int argc, char **argv, char **env)
 	delete_tokens(tokens);
 	delete_env_list(minishell->env_list);
 	free(minishell);
+	free(str);
 	return (0);
 }
 
@@ -41,14 +43,16 @@ void	delete_tokens(t_tokens	**tokens)
 	int	i;
 
 	i = 0;
+	if (tokens == 0)
+		return;
 	while (tokens[i] != 0)
 	{
+		free(tokens[i]->str);
 		free(tokens[i]);
+		tokens[i] = 0;
 		++i;
 	}
-	free(tokens[i]);
 	free(tokens);
-
 }
 
 void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)

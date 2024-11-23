@@ -16,11 +16,15 @@ SRCS_NAME = minishell.c \
 			ft_split.c \
 			quotes.c \
 			write_tokens.c\
-			env.c\
 			dollar.c\
+			libft.c\
 			builtins.c\
+			env.c\
 			export_sort.c\
-			libft.c
+			ft_cd.c\
+			ft_export.c\
+			ft_echo.c\
+
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
 
