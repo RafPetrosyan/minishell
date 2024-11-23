@@ -37,17 +37,19 @@ int builtins(t_tokens **tokens, t_minishell *minishell)
 	else if (ft_strcmp(tokens[0]->str, "env") == 0)
 		return (ft_env(minishell));
 	else if (ft_strcmp(tokens[0]->str, "export") == 0)
-		ft_export(minishell->env_list, tokens, &minishell->env_list);
+		return (ft_export(minishell->env_list, tokens, &minishell->env_list));
 	else if (ft_strcmp(tokens[0]->str, "unset") == 0)
-		ft_unset(&(minishell->env_list), tokens);
-	else if (ft_strcmp(tokens[0]->str, "print") == 0)
-		print_env_keys(minishell->env_list);
+		return(ft_unset(&(minishell->env_list), tokens));
+	// else if (ft_strcmp(tokens[0]->str, "print") == 0)
+	// 	print_env_keys(minishell->env_list);
 	else if (ft_strcmp(tokens[0]->str, "pwd") == 0)
-		ft_pwd(minishell->env_list);
+		return(ft_pwd(minishell->env_list));
 	else if (ft_strcmp(tokens[0]->str, "cd") == 0)
-		ft_cd(minishell->env_list, tokens);
+		return(ft_cd(minishell->env_list, tokens));
+	else if (ft_strcmp(tokens[0]->str, "exit") == 0)
+		return (2);
 	else
-		printf("%s: command not found\n", tokens[0]->str);
+		return( 0 || printf("%s: command not found\n", tokens[0]->str));
 	return (1);
 }
 
@@ -95,7 +97,7 @@ int ft_env(t_minishell *minishell)
 	return (0);
 }
 
-int	ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress)
+int	ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress)// funkcian bajanem nenc vor tam key u value inqy export ani
 {
 	int	i;
 	int	j;
@@ -114,24 +116,33 @@ int	ft_export(t_EnvList *env, t_tokens **tokens, t_EnvList **env_adress)
 	}
 	while (tokens[i] != 0)
 	{
-		j = 0;
-		export_node = find_to_env_export(tokens[i]->str, env, &j);
-		if (export_node != 0)
-		{
-			if (tokens[i]->str[j] == '=')
-			{
-				if (export_node->value != 0)
-					free(export_node->value);
-				export_node->value =  ft_strdup(&(tokens[i]->str[j + 1]));
-			}
-		}
-		else
-		{
-			while (env->next != 0)
-				env = env->next;
-			env->next = add_list(tokens[i]->str);
-		}
+		ft_export_helper(tokens[i]->str, env);
 		++i;
+	}
+	return (0);
+}
+
+int	ft_export_helper(char *str, t_EnvList *env)
+{
+	t_EnvList	*export_node;
+	int			j;
+
+	j = 0;
+	export_node = find_to_env_export(str, env, &j);
+	if (export_node != 0)
+	{
+		if (str[j] == '=')
+		{
+			if (export_node->value != 0)
+				free(export_node->value);
+			export_node->value =  ft_strdup(&(str[j + 1]));
+		}
+	}
+	else
+	{
+		while (env->next != 0)
+			env = env->next;
+		env->next = add_list(str);
 	}
 	return (0);
 }
@@ -169,6 +180,11 @@ int	ft_unset(t_EnvList **env, t_tokens **tokens)
 	{
 		j = 0;
 		unset_node = find_to_env_export(tokens[i]->str, *env, &j);
+		if (ft_strcmp(unset_node->key, "_") == 0)
+		{
+			++i;
+			continue ;
+		}
 		ft_unset_helper(unset_node, env);
 		++i;
 	}
@@ -220,12 +236,19 @@ int	ft_cd(t_EnvList *env, t_tokens **tokens)
 int	cd_non_symbol(t_EnvList *env, t_tokens *token)
 {
 	int		j;
+	char	*pwd;
 
 	j = 0;
+	pwd = getcwd(0, 0);
 	if (chdir(token->str) == 0)
 	{
-		free(find_to_env_export("OLDPWD", env, &j)->value);
-		find_to_env_export("OLDPWD", env, &j)->value = find_to_env_export("PWD", env, &j)->value;
+		if (find_to_env_export("OLDPWD", env, &j) != 0)
+			free(find_to_env_export("OLDPWD", env, &j)->value);
+		else if (find_to_env_export("PWD", env, &j) != 0)
+			free (find_to_env_export("PWD", env, &j)->value);
+		ft_export_helper("OLDPWD", env);
+		ft_export_helper("PWD", env);
+		find_to_env_export("OLDPWD", env, &j)->value = pwd;
 		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
 		return (0);
 	}
@@ -236,6 +259,7 @@ int	cd_non_symbol(t_EnvList *env, t_tokens *token)
 int	cd_tilda(t_EnvList *env, t_tokens *token)
 {
 	char	*path;
+	char	*pwd;
 	int		j;
 
 	j = 0;
@@ -245,10 +269,16 @@ int	cd_tilda(t_EnvList *env, t_tokens *token)
 	ft_strlcpy(path, getenv("HOME"), ft_strlen(getenv("HOME")) + 1, &j);
 	ft_strlcpy(path, token->str + 1, ft_strlen(token->str), &j);
 	path[j] = '\0';
+	pwd = getcwd(0, 0);
 	if (chdir(path) == 0)
 	{
-		free(find_to_env_export("OLDPWD", env, &j)->value);
-		find_to_env_export("OLDPWD", env, &j)->value = find_to_env_export("PWD", env, &j)->value;
+		if (find_to_env_export("OLDPWD", env, &j) != 0)
+			free(find_to_env_export("OLDPWD", env, &j)->value);
+		else if (find_to_env_export("PWD", env, &j) != 0)
+			free (find_to_env_export("PWD", env, &j)->value);
+		ft_export_helper("OLDPWD", env);
+		ft_export_helper("PWD", env);
+		find_to_env_export("OLDPWD", env, &j)->value = pwd;
 		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
 		free(path);
 		return (0);
@@ -263,10 +293,11 @@ int	cd_minus(t_EnvList *env, t_tokens *token)
 	char		*path;
 	int			j;
 	t_EnvList	*oldpwd;
+	char		*pwd;
 
 	j = 0;
 	oldpwd = find_to_env_export("OLDPWD", env, &j);
-	if (oldpwd->value == 0)
+	if (oldpwd == 0 || oldpwd->value == 0)
 		return (printf("bash: cd: OLDPWD not set\n"));
 	path = malloc((ft_strlen(oldpwd->value) + ft_strlen(token->str)) * sizeof(char));
 	if (path == 0)
@@ -275,10 +306,16 @@ int	cd_minus(t_EnvList *env, t_tokens *token)
 	ft_strlcpy(path, oldpwd->value, ft_strlen(oldpwd->value) + 1, &j);
 	ft_strlcpy(path, token->str + 1, ft_strlen(token->str), &j);
 	path[j] = '\0';
+	pwd = getcwd(0, 0);
 	if (chdir(path) == 0)
 	{
-		free(find_to_env_export("OLDPWD", env, &j)->value);
-		find_to_env_export("OLDPWD", env, &j)->value = find_to_env_export("PWD", env, &j)->value;
+		if (find_to_env_export("OLDPWD", env, &j) != 0)
+			free(find_to_env_export("OLDPWD", env, &j)->value);
+		else if (find_to_env_export("PWD", env, &j) != 0)
+			free (find_to_env_export("PWD", env, &j)->value);
+		ft_export_helper("OLDPWD", env);
+		ft_export_helper("PWD", env);
+		find_to_env_export("OLDPWD", env, &j)->value = pwd;
 		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
 		free(path);
 		return (0);
@@ -292,6 +329,7 @@ int	cd_no_arguments(t_EnvList *env)
 {
 	t_EnvList	*node;
 	int			i;
+	char		*pwd;
 
 	i = 0;
 	node = find_to_env_export("HOME", env, &i);
@@ -300,10 +338,16 @@ int	cd_no_arguments(t_EnvList *env)
 		printf("bash: cd: HOME not set");
 		return (1);
 	}
+	pwd = getcwd(0, 0);
 	if (chdir(node->value) == 0)
 	{
-		free(find_to_env_export("OLDPWD", env, &i)->value);
-		find_to_env_export("OLDPWD", env, &i)->value = find_to_env_export("PWD", env, &i)->value;
+		if (find_to_env_export("OLDPWD", env, &i) != 0)
+			free(find_to_env_export("OLDPWD", env, &i)->value);
+		else if (find_to_env_export("PWD", env, &i) != 0)
+			free (find_to_env_export("PWD", env, &i)->value);
+		ft_export_helper("OLDPWD", env);
+		ft_export_helper("PWD", env);
+		find_to_env_export("OLDPWD", env, &i)->value = pwd;
 		find_to_env_export("PWD", env, &i)->value = getcwd(0, 0);
 		return (0);
 	}

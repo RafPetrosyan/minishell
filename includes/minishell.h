@@ -25,6 +25,7 @@ typedef struct s_EnvList
     char    *key;
     char    *value;
     struct s_EnvList *next;
+    int		type;// 0-print  1-nonprint
 }   t_EnvList;
 
 typedef struct s_minishell
@@ -105,5 +106,8 @@ int		cd_tilda(t_EnvList *env, t_tokens *token);
 int		cd_no_arguments(t_EnvList *env);
 int		cd_minus(t_EnvList *env, t_tokens *token);
 int	cd_non_symbol(t_EnvList *env, t_tokens *token);
+int	ft_export_helper(char *str, t_EnvList *env);
+void	delete_tokens(t_tokens	**tokens);
+
 
 #endif
