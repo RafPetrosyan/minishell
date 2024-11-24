@@ -1,7 +1,9 @@
 #include <minishell.h>
 
-int builtins(t_tokens **tokens, t_minishell *minishell)
+int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 {
+	int	id;
+
 	if (tokens == 0 || tokens[0] == 0)
 		return (0);
 	if (ft_strcmp(tokens[0]->str, "echo") == 0)
@@ -21,7 +23,19 @@ int builtins(t_tokens **tokens, t_minishell *minishell)
 	else if (ft_strcmp(tokens[0]->str, "exit") == 0)
 		return (2);
 	else
-		return( 0 || printf("%s: command not found\n", tokens[0]->str));
+	{
+		int status;
+		id = fork();
+		if (id > 0)
+			waitpid(-1, &status, 0);
+		else if (id == 0)
+		{
+			if (execve(minishell->tokens[0], minishell->tokens, env) == -1)
+				printf("%s: command not found\n", tokens[0]->str);
+			exit(127);
+		}
+	}
+		return (0);
 	return (1);
 }
 
@@ -90,8 +104,6 @@ void	ft_unset_helper(t_EnvList *unset_node, t_EnvList **env)
 		temp->next = next;
 	}
 }
-
-
 
 int	ft_pwd()
 {

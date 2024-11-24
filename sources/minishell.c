@@ -22,16 +22,19 @@ int main(int argc, char **argv, char **env)
 		if (check_quote(str, minishell) == 1)
 		{
 			tokens = split_tokens(str, 0, minishell);
+			minishell->tokens = tokens_to_char(tokens);
 			// print_tokens_info(str, minishell, tokens);
-			if (builtins(tokens, minishell) == 2)
+			if (builtins(tokens, minishell, env) == 2) // nor env sarqel
 				break ;
 			delete_tokens(tokens);
+			free_tokens_to_char(minishell->tokens);
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(str);
 	}
 	delete_tokens(tokens);
+	free_tokens_to_char(minishell->tokens);
 	delete_env_list(minishell->env_list);
 	free(minishell);
 	free(str);

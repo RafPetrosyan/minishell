@@ -13,7 +13,7 @@ SRCS_DIR = sources/
 OBJS_DIR = objects/
 
 SRCS_NAME = minishell.c \
-			ft_split.c \
+			ft_split_tokens.c \
 			quotes.c \
 			write_tokens.c\
 			dollar.c\
@@ -24,6 +24,7 @@ SRCS_NAME = minishell.c \
 			ft_cd.c\
 			ft_export.c\
 			ft_echo.c\
+			tokens_to_char.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

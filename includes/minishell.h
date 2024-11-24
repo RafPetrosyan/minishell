@@ -4,6 +4,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/wait.h>
+# include <errno.h>
+
 
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -28,10 +31,11 @@ typedef struct	s_EnvList
 	int		type;// 0-print  1-nonprint
 }	t_EnvList;
 
-typedef struct s_minishell
+typedef struct	s_minishell
 {
-    t_EnvList   *env_list;
-}   t_minishell;
+	t_EnvList	*env_list;
+	char		**tokens;
+}	t_minishell;
 
 int check_quote(char *str, t_minishell *minishell);
 int	check_non_quote(char *str, int *i, t_minishell *minishell);
@@ -82,7 +86,7 @@ int ft_strcmp(char *str1, char *str2);
 
 int	ft_echo(t_tokens **tokens, int flag, int i, int j);
 int	ft_env(t_minishell *minishell);
-int	builtins(t_tokens **tokens, t_minishell *minishell);
+int	builtins(t_tokens **tokens, t_minishell *minishell, char **env);
 
 
 ///////         token tpel    ////////
@@ -108,6 +112,8 @@ int		cd_minus(t_EnvList *env, t_tokens *token);
 int	cd_non_symbol(t_EnvList *env, t_tokens *token);
 int	ft_export_helper(char *str, t_EnvList *env);
 void	delete_tokens(t_tokens	**tokens);
+char	**tokens_to_char(t_tokens **arr);
+void	free_tokens_to_char(char **arr);
 
 
 #endif
