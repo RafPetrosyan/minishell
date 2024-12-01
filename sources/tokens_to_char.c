@@ -19,7 +19,7 @@ char	**tokens_to_char(t_tokens **arr)
 	return (split);
 }
 
-void	free_tokens_to_char(char **arr)
+void	free_string_arr(char **arr)
 {
 	int		i;
 

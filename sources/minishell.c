@@ -27,14 +27,14 @@ int main(int argc, char **argv, char **env)
 			if (builtins(tokens, minishell, env) == 2) // nor env sarqel
 				break ;
 			delete_tokens(tokens);
-			free_tokens_to_char(minishell->tokens);
+			free_string_arr(minishell->tokens);
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(str);
 	}
 	delete_tokens(tokens);
-	free_tokens_to_char(minishell->tokens);
+	free_string_arr(minishell->tokens);
 	delete_env_list(minishell->env_list);
 	free(minishell);
 	free(str);

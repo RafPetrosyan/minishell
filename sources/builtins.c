@@ -2,8 +2,6 @@
 
 int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 {
-	int	id;
-
 	if (tokens == 0 || tokens[0] == 0)
 		return (0);
 	if (ft_strcmp(tokens[0]->str, "echo") == 0)
@@ -24,16 +22,7 @@ int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 		return (2);
 	else
 	{
-		int status;
-		id = fork();
-		if (id > 0)
-			waitpid(-1, &status, 0);
-		else if (id == 0)
-		{
-			if (execve(minishell->tokens[0], minishell->tokens, env) == -1)
-				printf("%s: command not found\n", tokens[0]->str);
-			exit(127);
-		}
+		return (ft_execve(minishell, env, tokens));
 	}
 		return (0);
 	return (1);
@@ -68,7 +57,7 @@ int	ft_unset(t_EnvList **env, t_tokens **tokens)
 	{
 		j = 0;
 		unset_node = find_to_env_export(tokens[i]->str, *env, &j);
-		if (ft_strcmp(unset_node->key, "_") == 0)
+		if (unset_node != 0 && ft_strcmp(unset_node->key, "_") == 0)
 		{
 			++i;
 			continue ;

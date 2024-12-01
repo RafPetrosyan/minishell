@@ -75,6 +75,11 @@ t_EnvList	*add_list(char *str);
 
 size_t	ft_strlcpy(char *dst, char *src, size_t size, int *j);
 char	*ft_strdup(char *s);
+char	**ft_split(char *str, char c);
+int	ft_split_get_word_count(char *str, char c);
+int	ft_word_mall(char *str, int word_count, char c, char **arr);
+void	ft_write_word(char *str, int word_count, char c, char **arr);
+char	*ft_strjoin(char *s1, char *s2);
 
 ////////        xary        ////////
 
@@ -113,7 +118,10 @@ int	cd_non_symbol(t_EnvList *env, t_tokens *token);
 int	ft_export_helper(char *str, t_EnvList *env);
 void	delete_tokens(t_tokens	**tokens);
 char	**tokens_to_char(t_tokens **arr);
-void	free_tokens_to_char(char **arr);
+void	free_string_arr(char **arr);
 
+
+
+int	ft_execve(t_minishell *minishell, char **env, t_tokens **tokens);
 
 #endif

@@ -24,7 +24,9 @@ SRCS_NAME = minishell.c \
 			ft_cd.c\
 			ft_export.c\
 			ft_echo.c\
-			tokens_to_char.c
+			tokens_to_char.c\
+			ft_execve.c\
+			ft_split.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)
