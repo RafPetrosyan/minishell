@@ -5,39 +5,41 @@ int main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
 	t_tokens **tokens;
-	char	*str;
 
 	(void)argc;
 	(void)argv;
-	str = "";
 	minishell = malloc(sizeof(t_minishell));
 	minishell->env_list = env_to_list(env);
-	while (str)
+	minishell->str = "";
+	while (minishell->str != 0)
 	{
-		str = readline("\033[38;5;43mMinishell:\033[0;000m ");
-		if (!str)
+		minishell->str = readline("\033[38;5;43mMinishell:\033[0;000m ");
+		if (!minishell->str)
 			return (0);
-		if (str[0] != '\0')  // inchqan space ka ancnem ete datark eghav chavelacnem
-			add_history(str);
-		if (check_quote(str, minishell) == 1)
+		if (minishell->str[0] != '\0')  // inchqan space ka ancnem ete datark eghav chavelacnem
+			add_history(minishell->str);
+		if (check_quote(minishell) == 1)
 		{
-			tokens = split_tokens(str, 0, minishell);
+			tokens = split_tokens(0, minishell);
 			minishell->tokens = tokens_to_char(tokens);
+			minishell->env_char = env_to_char(minishell->env_list);
 			// print_tokens_info(str, minishell, tokens);
 			if (builtins(tokens, minishell, env) == 2) // nor env sarqel
 				break ;
 			delete_tokens(tokens);
 			free_string_arr(minishell->tokens);
+			free_string_arr(minishell->env_char);
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
-		free(str);
+		free(minishell->str);
 	}
 	delete_tokens(tokens);
 	free_string_arr(minishell->tokens);
+	free_string_arr(minishell->env_char);
 	delete_env_list(minishell->env_list);
+	free(minishell->str);
 	free(minishell);
-	free(str);
 	return (0);
 }
 

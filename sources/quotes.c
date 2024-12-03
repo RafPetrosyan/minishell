@@ -1,24 +1,24 @@
 #include "../includes/minishell.h"
 
-int	check_quote(char *str, t_minishell *minishell)
+int	check_quote(t_minishell *minishell)
 {
 	int	i;
 	int	lenght;
 
 	i = 0;
-	lenght = ft_strlen(str);
-	if (lenght != 0 && str[lenght - 1] == '\\')
+	lenght = ft_strlen(minishell->str);
+	if (lenght != 0 && minishell->str[lenght - 1] == '\\')
 		return (0);
 	while (i < lenght)
 	{
-		if (str[i] == '\'')
+		if (minishell->str[i] == '\'')
 		{
-			if (check_one_quote(str, &i) == -1)
+			if (check_one_quote(minishell->str, &i) == -1)
 				return (0);
 		}
-		else if (str[i] == '"')
+		else if (minishell->str[i] == '"')
 		{
-			if (check_two_quote(str, &i, minishell) == -1)
+			if (check_two_quote(&i, minishell) == -1)
 				return (0);
 		}
 		else
@@ -27,12 +27,14 @@ int	check_quote(char *str, t_minishell *minishell)
 	return (1);//ok
 }
 
-int	check_non_quote(char *str, int *i, t_minishell *minishell)
+int	check_non_quote(int *i, t_minishell *minishell)
 {
 	int	count;
 	int	operator;
+	char	*str;
 
 	count = 0;
+	str = minishell->str;
 	while (str[*i] != '\0')
 	{
 		if (str[*i] == '$')
@@ -72,23 +74,23 @@ int	check_one_quote(char *str, int *i)
 	return (-1);// chi pakvel 
 }
 
-int	check_two_quote(char *str, int *i, t_minishell *minishell)
+int	check_two_quote(int *i, t_minishell *minishell)
 {
 	int	flag;
 	int	count;
 
 	count = 0;
 	flag = 0;
-	while (str[*i] != '\0')
+	while (minishell->str[*i] != '\0')
 	{
-		if (str[*i] == '"')
+		if (minishell->str[*i] == '"')
 		{
 			++flag;
 			++(*i);
 			++count;
 		}
-		else if (str[*i] == '$')
-			count += dollar_arg_len_quote(str, i, minishell);// --(*i)
+		else if (minishell->str[*i] == '$')
+			count += dollar_arg_len_quote(i, minishell);// --(*i)
 		else
 		{
 			++count;

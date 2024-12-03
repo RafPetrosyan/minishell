@@ -81,7 +81,7 @@ int	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *mi
 	while (str[*i] != '\0')
 	{  
 		if (str[*i] == '$')
-			count += write_dollar(str, i, token, minishell, j);
+			count += write_dollar(i, token, minishell, j);
 		else if (check_operator(str, &k, minishell) != 0)
 		{
 			set_type(str, i, token);
@@ -145,7 +145,7 @@ int write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *min
 			continue;
 		}
 		if (str[*i] == '$')
-			count += write_dollar_quote(str, i, token, minishell, j);
+			count += write_dollar_quote(i, token, minishell, j);
 		else
 		{
 			token->str[*j] = str[*i];

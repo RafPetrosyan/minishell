@@ -12,8 +12,8 @@ int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 		return (ft_export(minishell->env_list, tokens, &minishell->env_list));
 	else if (ft_strcmp(tokens[0]->str, "unset") == 0)
 		return(ft_unset(&(minishell->env_list), tokens));
-	else if (ft_strcmp(tokens[0]->str, "print") == 0)
-		print_env_keys(minishell->env_list);
+	// else if (ft_strcmp(tokens[0]->str, "print") == 0)
+	// 	print_env_keys(minishell->env_list);
 	else if (ft_strcmp(tokens[0]->str, "pwd") == 0)
 		return(ft_pwd(minishell->env_list));
 	else if (ft_strcmp(tokens[0]->str, "cd") == 0)
@@ -22,7 +22,7 @@ int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 		return (2);
 	else
 	{
-		return (ft_execve(minishell, env, tokens));
+		return (ft_execve(minishell, tokens));
 	}
 		return (0);
 	return (1);
@@ -107,14 +107,14 @@ int	ft_pwd()
 	return (0);
 }
 
-void print_env_keys(t_EnvList *temp)
-{
-	while (temp != 0)
-	{
-		if (temp->value != 0)
-		{
-			printf("%s ", temp->key);
-		}
-		temp = temp->next;
-	}
-}
+// void print_env_keys(t_EnvList *temp)
+// {
+// 	while (temp != 0)
+// 	{
+// 		if (temp->value != 0)
+// 		{
+// 			printf("%s ", temp->key);
+// 		}
+// 		temp = temp->next;
+// 	}
+// }

@@ -27,9 +27,9 @@ int	ft_get_word_len(char *str, int *i, t_minishell *minishell)
 		if (str[*i] == '\'')
 			count += (check_one_quote(str, i));
 		else if (str[*i] == '"')
-			count += (check_two_quote(str, i, minishell));
+			count += (check_two_quote(i, minishell));
 		else
-			count += check_non_quote(str, i, minishell);
+			count += check_non_quote(i, minishell);
 		if (str[*i] == ' ' || str[*i] == '|'
 			|| str[*i] == '<' || str[*i] == '>')
 			return (count);
@@ -81,13 +81,15 @@ int	ft_get_word_count(char *str, t_minishell *minishell)
 	return (count);
 }
 
-t_tokens	**split_tokens(char *str, int i, t_minishell *minishell)
+t_tokens	**split_tokens(int i, t_minishell *minishell)
 {
 	t_tokens	**arr;
 	int			*len_arr;
 	int			tokens_count;
 	int			arr_i;
+	char		*str;
 
+	str = minishell->str;
 	tokens_count = ft_get_word_count(str, minishell);
 	len_arr = malloc_word_len_arr(str, minishell);
 	arr_i = 0;

@@ -53,8 +53,11 @@ int	dollar_arg_len(char *str, int *index, t_minishell *minishell)
 	return (find_to_env(str, index, minishell->env_list));
 }
 
-int	dollar_arg_len_quote(char *str, int *index, t_minishell *minishell)
+int	dollar_arg_len_quote(int *index, t_minishell *minishell)
 {
+    char    *str;
+
+    str = minishell->str;
     ++(*index);
     if (str[*index] == '\0' || str[*index] == '\\' || str[*index] == ' ' || str[*index] == '\'' || str[*index] == '"')
         return (1);
@@ -65,17 +68,18 @@ int	dollar_arg_len_quote(char *str, int *index, t_minishell *minishell)
 	return (find_to_env(str, index, minishell->env_list));
 }
 
-int    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j)
+int    write_dollar(int *index, t_tokens *token, t_minishell *minishell, int *j)
 {
     int count;
+    char *str;
 
     count = 0;
+    str = minishell->str;
     ++(*index);
     if (str[*index] == '\0' || (str[*index] == '\\' || str[*index] == ' '))
     {
-        token->str[*j] = '$';
+        token->str[(*j)++] = '$';
         ++count;
-        ++(*j);
         return (count);
     }
     ////// $$ = 22701
@@ -93,17 +97,18 @@ int    write_dollar(char *str, int *index, t_tokens *token, t_minishell *minishe
     return (count);
 }
 
-int    write_dollar_quote(char *str, int *index, t_tokens *token, t_minishell *minishell, int *j)
+int    write_dollar_quote(int *index, t_tokens *token, t_minishell *minishell, int *j)
 {
     int count;
+    char *str;
 
     count = 0;
+    str = minishell->str;
     ++(*index);
     if (str[*index] == '\0' || (str[*index] == '\\' || str[*index] == ' ' || str[*index] == '\'' || str[*index] == '"'))
     {
-        token->str[*j] = '$';
+        token->str[(*j)++] = '$';
         ++count;
-        ++(*j);
         return (count);
     }
     ////// $$ = 22701
