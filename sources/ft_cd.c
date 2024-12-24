@@ -37,8 +37,14 @@ int	cd_non_symbol(t_EnvList *env, t_tokens *token)
 		ft_export_helper("PWD", env);
 		find_to_env_export("OLDPWD", env, &j)->value = pwd;
 		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
+		if (find_to_env_export("PWD", env, &j)->value == 0)
+		{
+			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			return (0);
+		}
 		return (0);
 	}
+	printf("bash: cd: %s: No such file or directory\n", token->str);
 	///////// error handle
 	return (1);
 }

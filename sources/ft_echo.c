@@ -36,9 +36,14 @@ int	ft_echo(t_tokens **tokens, int flag, int i, int j)
 		return (0);
 	}
 	flag = check_n_flag(tokens, &i);
-	while (tokens[i] != 0 && tokens[i]->type == 0)
+	while (tokens[i] != 0 && tokens[i]->type != 1)
 	{
 		j = 0;
+		if (tokens[i]->type != 0)
+		{
+			i += 2;
+			continue;
+		}
 		while (tokens[i]->str[j] != '\0')
 		{
 			write(1, &tokens[i]->str[j], 1);
@@ -46,7 +51,7 @@ int	ft_echo(t_tokens **tokens, int flag, int i, int j)
 		}
 		if (tokens[i + 1] == 0)
 			break ;
-		if (tokens[i + 1]->type == 0)
+		if (tokens[i + 1] != 0 && tokens[i + 1]->type != 1)
 			write(1, " ", 1);
 		++i;
 	}

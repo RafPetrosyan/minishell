@@ -6,6 +6,8 @@ int main(int argc, char **argv, char **env)
 	t_minishell	*minishell;
 	t_tokens **tokens;
 
+	int status;
+
 	(void)argc;
 	(void)argv;
 	minishell = malloc(sizeof(t_minishell));
@@ -20,22 +22,47 @@ int main(int argc, char **argv, char **env)
 			add_history(minishell->str);
 		if (check_quote(minishell) == 1)
 		{
+			minishell->pipe_count = 0;
 			tokens = split_tokens(0, minishell);
+			minishell->fd_arr = malloc((minishell->pipe_count + 2) * sizeof(int *));
+			for (int i = 0; i < minishell->pipe_count + 2; i++)
+				minishell->fd_arr[i] = malloc(2 * sizeof(int));
+			if (minishell->fd_arr == 0)
+			{
+				printf("Memmory error!!!!!");
+				return(1);
+			}
+			minishell->pipe_count2 = minishell->pipe_count;
 			minishell->tokens = tokens_to_char(tokens);
 			minishell->env_char = env_to_char(minishell->env_list);
-			// print_tokens_info(str, minishell, tokens);
-			if (builtins(tokens, minishell, env) == 2) // nor env sarqel
+			if (minishell->pipe_count == 0 && builtins(tokens, minishell, 0) == 2)
 				break ;
+			else if (minishell->pipe_count != 0)
+			{
+				pipe_commands_init(minishell, tokens);
+			}
 			delete_tokens(tokens);
-			free_string_arr(minishell->tokens);
+			free_tokens_char(minishell);
 			free_string_arr(minishell->env_char);
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(minishell->str);
+		if (minishell->fd_arr != 0)
+		{
+			for (int i = 0; i < minishell->pipe_count + 2; i++)
+				free(minishell->fd_arr[i]);
+			free(minishell->fd_arr);
+		}
+	}
+	if (minishell->fd_arr != 0)
+	{
+		for (int i = 0; i < minishell->pipe_count + 2; i++)
+			free(minishell->fd_arr[i]);
+		free(minishell->fd_arr);
 	}
 	delete_tokens(tokens);
-	free_string_arr(minishell->tokens);
+	free_tokens_char(minishell);
 	free_string_arr(minishell->env_char);
 	delete_env_list(minishell->env_list);
 	free(minishell->str);
@@ -76,6 +103,7 @@ void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
 		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
 		++i;
 	}
+	printf("Pipe Count: %d \n", minishell->pipe_count);
 	free(arr);
 	printf("--------------------------------------------------\n");
 }

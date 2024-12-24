@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
+int builtins(t_tokens **tokens, t_minishell *minishell, int token_index)
 {
 	if (tokens == 0 || tokens[0] == 0)
 		return (0);
@@ -22,7 +22,7 @@ int builtins(t_tokens **tokens, t_minishell *minishell, char **env)
 		return (2);
 	else
 	{
-		return (ft_execve(minishell, tokens));
+		return (ft_execve(minishell, tokens, token_index));
 	}
 		return (0);
 	return (1);

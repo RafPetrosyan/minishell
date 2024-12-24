@@ -4,6 +4,9 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+#include <stdio.h>
+#include <signal.h>
+#include <fcntl.h>
 # include <sys/wait.h>
 # include <errno.h>
 
@@ -37,6 +40,9 @@ typedef struct	s_minishell
 	char		*str;
 	char		**env_char;
 	char		**tokens;
+	int			pipe_count;
+	int			pipe_count2;
+	int			**fd_arr;
 }	t_minishell;
 
 int check_quote(t_minishell *minishell);
@@ -77,7 +83,7 @@ t_EnvList	*add_list(char *str);
 
 size_t	ft_strlcpy(char *dst, char *src, size_t size, int *j);
 char	*ft_strdup(char *s);
-char	**ft_split(char *str, char c);
+char	**ft_split(t_EnvList *path, char c);
 int	ft_split_get_word_count(char *str, char c);
 int	ft_word_mall(char *str, int word_count, char c, char **arr);
 char	*ft_strjoin_free1(char *s1, char *s2);// poxvac e vor s1-y free ani
@@ -98,7 +104,7 @@ int ft_strcmp(char *str1, char *str2);
 
 int	ft_echo(t_tokens **tokens, int flag, int i, int j);
 int	ft_env(t_minishell *minishell);
-int	builtins(t_tokens **tokens, t_minishell *minishell, char **env);
+int builtins(t_tokens **tokens, t_minishell *minishell, int token_index);
 
 
 ///////         token tpel    ////////
@@ -130,11 +136,14 @@ void	ft_change_shlvl(t_EnvList *shlvl);
 
 
 
-int	ft_execve(t_minishell *minishell, t_tokens **tokens);
+int	ft_execve(t_minishell *minishell, t_tokens **tokens, int token_index);
 char	**env_to_char(t_EnvList *env_list);
 void	env_to_char_helper(char **env, t_EnvList *env_list);
 char	**env_to_char(t_EnvList *env_list);
 void	env_to_char_helper(char **env, t_EnvList *env_list);
 
+void	free_tokens_char(t_minishell *minishell);
+int	pipe_commands_init(t_minishell *minishell, t_tokens **tokens);
+int cmds(t_tokens **tokens, t_minishell *minishell, int token_index);
 
 #endif
