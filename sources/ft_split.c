@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 int	ft_split_get_word_count(char *str, char c)
 {
@@ -69,13 +68,15 @@ void	ft_write_word(char *str, int word_count, char c, char **arr)
 	}
 }
 
-char	**ft_split(char *str, char c)
+char	**ft_split(t_EnvList *path, char c)
 {
 	int		word_count;
 	char	**arr;
+	char	*str;
 
-	if (str == 0)
+	if (path == 0 || path->value == 0)
 		return (0);
+	str = path->value;
 	word_count = ft_split_get_word_count(str, c);
 	arr = (char **)malloc((word_count + 1) * sizeof(char *));
 	if (arr == 0)
