@@ -43,8 +43,8 @@ int pipe_commands_init(t_minishell *minishell, t_tokens **tokens)
 			close(minishell->fd_arr[minishell->pipe_count + 1][0]);
 			close(minishell->fd_arr[minishell->pipe_count + 1][1]);
 
-			// cmds(&tokens[token_index], minishell, token_index);
-			builtins(&tokens[token_index], minishell, token_index);
+			cmds(&tokens[token_index], minishell, token_index);
+			// builtins(&tokens[token_index], minishell, token_index);
 			exit(0);
 		}
 		else if (pid > 0) // Parent process

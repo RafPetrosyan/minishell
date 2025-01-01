@@ -39,10 +39,11 @@ typedef struct	s_minishell
 	t_EnvList	*env_list;
 	char		*str;
 	char		**env_char;
-	char		**tokens;
+	// char		**tokens;
 	int			pipe_count;
 	int			pipe_count2;
 	int			**fd_arr;
+	char		**cmd_arr;
 }	t_minishell;
 
 int check_quote(t_minishell *minishell);

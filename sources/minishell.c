@@ -23,6 +23,7 @@ int main(int argc, char **argv, char **env)
 		if (check_quote(minishell) == 1)
 		{
 			minishell->pipe_count = 0;
+			minishell->cmd_arr = 0;
 			tokens = split_tokens(0, minishell);
 			minishell->fd_arr = malloc((minishell->pipe_count + 2) * sizeof(int *));
 			for (int i = 0; i < minishell->pipe_count + 2; i++)
@@ -33,16 +34,16 @@ int main(int argc, char **argv, char **env)
 				return(1);
 			}
 			minishell->pipe_count2 = minishell->pipe_count;
-			minishell->tokens = tokens_to_char(tokens);
+			// minishell->tokens = tokens_to_char(tokens);
 			minishell->env_char = env_to_char(minishell->env_list);
-			if (minishell->pipe_count == 0 && builtins(tokens, minishell, 0) == 2)
+			if (minishell->pipe_count == 0 && cmds(tokens, minishell, 0) == 2)
 				break ;
 			else if (minishell->pipe_count != 0)
 			{
 				pipe_commands_init(minishell, tokens);
 			}
 			delete_tokens(tokens);
-			free_tokens_char(minishell);
+			// free_tokens_char(minishell);
 			free_string_arr(minishell->env_char);
 		}
 		else
@@ -62,7 +63,7 @@ int main(int argc, char **argv, char **env)
 		free(minishell->fd_arr);
 	}
 	delete_tokens(tokens);
-	free_tokens_char(minishell);
+	// free_tokens_char(minishell);
 	free_string_arr(minishell->env_char);
 	delete_env_list(minishell->env_list);
 	free(minishell->str);

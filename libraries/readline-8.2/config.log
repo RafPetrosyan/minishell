@@ -1954,8 +1954,8 @@ configure:7048: $? = 0
 configure:7048: result: yes
 configure:7074: checking for tgetent
 configure:7074: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccQeoHeI.o: in function `main':
-/home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:123: undefined reference to `tgetent'
+/usr/bin/ld: /tmp/ccctsvY2.o: in function `main':
+/home/raf/Desktop/12/libraries/readline-8.2/conftest.c:123: undefined reference to `tgetent'
 collect2: error: ld returned 1 exit status
 configure:7074: $? = 1
 configure: failed program was:
@@ -2249,8 +2249,8 @@ configure:7414: $? = 0
 configure:7414: result: yes
 configure:7421: checking for mbscasecmp
 configure:7421: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccXrBe1I.o: in function `main':
-/home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscasecmp'
+/usr/bin/ld: /tmp/ccqltxXQ.o: in function `main':
+/home/raf/Desktop/12/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscasecmp'
 collect2: error: ld returned 1 exit status
 configure:7421: $? = 1
 configure: failed program was:
@@ -2388,8 +2388,8 @@ configure: failed program was:
 configure:7421: result: no
 configure:7428: checking for mbscmp
 configure:7428: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/cchwc3yp.o: in function `main':
-/home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscmp'
+/usr/bin/ld: /tmp/ccJhFxRC.o: in function `main':
+/home/raf/Desktop/12/libraries/readline-8.2/conftest.c:128: undefined reference to `mbscmp'
 collect2: error: ld returned 1 exit status
 configure:7428: $? = 1
 configure: failed program was:
@@ -2535,8 +2535,8 @@ configure:7442: $? = 0
 configure:7442: result: yes
 configure:7450: checking for mbschr
 configure:7450: gcc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccMxhm95.o: in function `main':
-/home/raf/Desktop/minishell/libraries/readline-8.2/conftest.c:130: undefined reference to `mbschr'
+/usr/bin/ld: /tmp/ccMr6zG1.o: in function `main':
+/home/raf/Desktop/12/libraries/readline-8.2/conftest.c:130: undefined reference to `mbschr'
 collect2: error: ld returned 1 exit status
 configure:7450: $? = 1
 configure: failed program was:
@@ -3082,7 +3082,7 @@ bash_cv_wcwidth_broken=no
 AR='ar'
 ARFLAGS='cr'
 BRACKETED_PASTE='-DBRACKETED_PASTE_DEFAULT=1'
-BUILD_DIR='/home/raf/Desktop/minishell/libraries/readline-8.2'
+BUILD_DIR='/home/raf/Desktop/12/libraries/readline-8.2'
 CC='gcc'
 CFLAGS='-g -O2 -Wno-parentheses -Wno-format-security -Wno-tautological-constant-out-of-range-compare'
 CPP='gcc -E'
