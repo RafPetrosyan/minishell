@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/06 14:24:50 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/06 14:25:44 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 char	*ft_strdup(char *s)
@@ -44,7 +56,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	str[i + j] = '\0';
 	return (str);
 }
-char	*ft_strjoin_free1(char *s1, char *s2) // poxvac e vor s1-y free ani
+
+char	*ft_strjoin_free1(char *s1, char *s2)// poxvac e vor s1-y free ani
 {
 	int		i;
 	int		j;
