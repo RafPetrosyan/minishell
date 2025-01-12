@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	check_quote(t_minishell *minishell)
 {
@@ -24,13 +24,19 @@ int	check_quote(t_minishell *minishell)
 		else
 			++i;
 	}
-	return (1);//ok
+	return (1);
+}
+
+int	veragrel(int *arg1, int arg2)
+{
+	*arg1 = arg2;
+	return (*arg1);
 }
 
 int	check_non_quote(int *i, t_minishell *minishell)
 {
-	int	count;
-	int	operator;
+	int		count;
+	int		operator;
 	char	*str;
 
 	count = 0;
@@ -39,7 +45,7 @@ int	check_non_quote(int *i, t_minishell *minishell)
 	{
 		if (str[*i] == '$')
 			count += dollar_arg_len(str, i, minishell);
-		else if (operator = check_operator(str, i, minishell))
+		else if (veragrel((&operator), check_operator(str, i)) != 0)
 			return (operator);
 		else
 		{
@@ -68,10 +74,10 @@ int	check_one_quote(char *str, int *i)
 		++(*i);
 		++count;
 		if (flag == 2)
-			return (count - 2);//pakvel e
+			return (count - 2);
 	}
 	printf("chi pakvel meky");
-	return (-1);// chi pakvel 
+	return (-1);
 }
 
 int	check_two_quote(int *i, t_minishell *minishell)
@@ -90,28 +96,14 @@ int	check_two_quote(int *i, t_minishell *minishell)
 			++count;
 		}
 		else if (minishell->str[*i] == '$')
-			count += dollar_arg_len_quote(i, minishell);// --(*i)
+			count += dollar_arg_len_quote(i, minishell);
 		else
 		{
 			++count;
 			++(*i);
 		}
 		if (flag == 2)
-			return (count - 2);//pakvel e
+			return (count - 2);
 	}
-	return (-1);// chi pakvel 
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	if (str == 0)
-	{
-		return (0);
-	}
-	i = 0;
-	while (str[i] != '\0')
-		++i;
-	return (i);
+	return (-1);
 }

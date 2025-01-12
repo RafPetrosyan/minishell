@@ -36,7 +36,7 @@ int	ft_word_mall(char *str, int word_count, char c, char **arr)
 			++i;
 		}
 		arr[arr_index] = (char *)malloc((word_len + 1) * sizeof(char));
-		if (arr[arr_index] == 0)// avelacnel vor azati minchev et sarqacnery
+		if (arr[arr_index] == 0)
 			return (-1);
 		word_len = 0;
 		++arr_index;

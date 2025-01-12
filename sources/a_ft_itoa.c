@@ -43,7 +43,7 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi1(const char *nptr)
 {
 	int	i;
 	int	sign;

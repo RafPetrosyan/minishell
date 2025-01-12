@@ -25,15 +25,11 @@ int	get_value_len1(char *str, int i)
 	return (count);
 }
 
-t_EnvList	*add_list(char *str)
+t_EnvList	*add_list(char *str, int i, int j)
 {
 	t_EnvList	*node;
-	int			i;
-	int			j;
 	int			len;
 
-	i = 0;
-	j = 0;
 	len = get_key_len(str);
 	node = malloc(sizeof(t_EnvList));
 	node->next = 0;
@@ -67,11 +63,11 @@ t_EnvList	*env_to_list(char **env)
 	int			i;
 
 	i = 0;
-	first = add_list(env[i++]);
+	first = add_list(env[i++], 0, 0);
 	temp = first;
 	while (env[i] != 0)
 	{
-		temp->next = add_list(env[i++]);
+		temp->next = add_list(env[i++], 0, 0);
 		temp->next->type = 0;
 		temp = temp->next;
 	}
@@ -93,4 +89,3 @@ int	delete_env_list(t_EnvList *list)
 	}
 	return (0);
 }
-

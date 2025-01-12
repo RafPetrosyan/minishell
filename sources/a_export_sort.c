@@ -15,13 +15,11 @@ int	ft_strcmp(char *str1, char *str2)
 	return (str1[i] - str2[i]);
 }
 
-void	print_export(t_EnvList *env_list)
+void	print_export(t_EnvList *env_list, t_EnvList *verjiny)
 {
 	t_EnvList	*temp;
 	t_EnvList	*min;
-	t_EnvList	*verjiny;
 
-	verjiny = 0;
 	while (1)
 	{
 		temp = env_list;
@@ -39,7 +37,7 @@ void	print_export(t_EnvList *env_list)
 		{
 			printf("declare -x %s", min->key);
 			if (min->value != 0)
-				printf("=\"%s\"" , min->value);
+				printf("=\"%s\"", min->value);
 			printf("\n");
 		}
 		verjiny = min;

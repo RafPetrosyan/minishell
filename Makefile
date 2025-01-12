@@ -4,7 +4,7 @@ READLINE = readline
 CC = cc
 
 INC_DIRS = -I./includes -I./$(LIBS_DIR)/$(READLINE)/include
-CFLAGS = -Wextra -Werror -g $(INC_DIRS) #-g3 -fsanitize=address
+CFLAGS =  -Wall -Wextra   -g $(INC_DIRS) #-g3 -fsanitize=address
 LIBS_DIR = libraries
 READLINE_LIB_PATH = $(LIBS_DIR)/readline/lib
 
@@ -14,23 +14,27 @@ OBJS_DIR = objects/
 
 SRCS_NAME = minishell.c \
 			ft_split_tokens.c \
-			quotes.c \
+			a_quotes.c \
 			write_tokens.c\
 			dollar.c\
-			libft.c\
-			builtins.c\
+			a_libft.c\
+			a_builtins.c\
 			env.c\
-			export_sort.c\
+			a_export_sort.c\
 			ft_cd.c\
-			ft_export.c\
-			ft_echo.c\
-			tokens_to_char.c\
+			a_ft_export.c\
+			a_ft_echo.c\
+			a_tokens_to_char.c\
 			ft_execve.c\
-			ft_split.c\
-			env_to_char.c\
-			ft_itoa.c\
+			a_ft_split.c\
+			a_env_to_char.c\
+			a_ft_itoa.c\
 			pipe_commands.c\
-			in_redir.c
+			in_redir.c\
+			b_ft_exit.c\
+			a_ft_printf.c\
+			her_doc.c\
+			here_doc_init.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-int	write_operator(char *str, int *i, t_minishell *minishell, t_tokens *token, int *j)
+int	write_operator(char *str, int *i, t_tokens *token, int *j)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	if (str[*i] == '|' && ++count)
 		token->str[(*j)++] = str[(*i)++];
 	else if (str[(*i)] == '<' && str[(*i) + 1] != '<' && ++count)
-		token->str[(*j)++] = str[(*i)++]; 
-	else if (str[*i] == '>' && str[*i + 1] != '>'&& ++count)
-		token->str[(*j)++] = str[(*i)++]; 
+		token->str[(*j)++] = str[(*i)++];
+	else if (str[*i] == '>' && str[*i + 1] != '>' && ++count)
+		token->str[(*j)++] = str[(*i)++];
 	else if (str[*i] == '<' && str[*i + 1] == '<')
 	{
 		count += 2;
-		token->str[(*j)++] = str[(*i)++]; 
-		token->str[(*j)++] = str[(*i)++]; 
+		token->str[(*j)++] = str[(*i)++];
+		token->str[(*j)++] = str[(*i)++];
 	}
 	else if (str[*i] == '>' && str[*i + 1] == '>')
 	{
 		count += 2;
-		token->str[(*j)++] = str[(*i)++]; 
-		token->str[(*j)++] = str[(*i)++]; 
+		token->str[(*j)++] = str[(*i)++];
+		token->str[(*j)++] = str[(*i)++];
 	}
 	return (count);
 }
@@ -82,12 +82,14 @@ int	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *mi
 	while (str[*i] != '\0')
 	{  
 		if (str[*i] == '$')
-			count += write_dollar(i, token, minishell, j);
-		else if (check_operator(str, &k, minishell) != 0)
+			count += write_dollar(i, token->str, minishell, j, minishell->str);
+		else if (check_operator(str, &k) != 0)
 		{
-			if (set_type(str, i, token) == 1)
+			if (set_type(str, i, token) == PIPE)
 				++minishell->pipe_count;
-			count += write_operator(str, i, minishell, token, j);
+			if (set_type(str, i, token) == HERE_DOCK)
+				++minishell->here_doc_count;
+			count += write_operator(str, i, token, j);
 			return (count);
 		}
 		else
@@ -147,7 +149,7 @@ int write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *min
 			continue;
 		}
 		if (str[*i] == '$')
-			count += write_dollar_quote(i, token, minishell, j);
+			count += write_dollar_quote(i, token->str, minishell, j);
 		else
 		{
 			token->str[*j] = str[*i];

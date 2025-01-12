@@ -1,18 +1,55 @@
 #include "../includes/minishell.h"
 #include <unistd.h>
 
-int main(int argc, char **argv, char **env)
+char g_exit_status = 0;
+
+void	free_memory(t_minishell *minishell)
+{
+	delete_tokens(minishell->tokens);
+	free_string_arr(minishell->env_char);
+	delete_env_list(minishell->env_list);
+	free(minishell->str);
+	free(minishell);
+	exit(1);
+}
+
+void	*ft_malloc(int count, int size, t_minishell *minishell)
+{
+	void	*ptr;
+
+	ptr = malloc(size * count);
+	if (ptr == 0)
+		free_memory(minishell);
+	return (ptr);
+}
+
+void	setDefaultValues(t_minishell *minishell)
+{
+	minishell->env_list = 0;
+	minishell->str = "";
+	minishell->env_char = 0;
+	minishell->tokens = 0;
+	minishell->pipe_count = 0;
+	minishell->here_doc_count = 0;
+	minishell->fd_arr = 0;
+	minishell->doc_arr = 0;
+	minishell->cmd_arr = 0;
+}
+
+int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*minishell;
-	t_tokens **tokens;
-
-	int status;
 
 	(void)argc;
 	(void)argv;
 	minishell = malloc(sizeof(t_minishell));
+	if (minishell == 0)
+	{
+		perror("! Memmory alocation error !");
+		exit(1);
+	}
+	setDefaultValues(minishell);
 	minishell->env_list = env_to_list(env);
-	minishell->str = "";
 	while (minishell->str != 0)
 	{
 		minishell->str = readline("\033[38;5;43mMinishell:\033[0;000m ");
@@ -23,52 +60,77 @@ int main(int argc, char **argv, char **env)
 		if (check_quote(minishell) == 1)
 		{
 			minishell->pipe_count = 0;
+			minishell->here_doc_count = 0;
 			minishell->cmd_arr = 0;
-			tokens = split_tokens(0, minishell);
-			minishell->fd_arr = malloc((minishell->pipe_count + 2) * sizeof(int *));
-			for (int i = 0; i < minishell->pipe_count + 2; i++)
-				minishell->fd_arr[i] = malloc(2 * sizeof(int));
-			if (minishell->fd_arr == 0)
+			minishell->tokens = split_tokens(0, minishell->str, minishell);
+			if (check_syntax(minishell->tokens) == 2)// memmory xndir klini ete zut continue toghnem
+				continue;
+			minishell->fd_arr = malloc((minishell->pipe_count) * sizeof(int *));
+			if (minishell->pipe_count != 0 && minishell->fd_arr == 0)
 			{
 				printf("Memmory error!!!!!");
 				return(1);
 			}
-			minishell->pipe_count2 = minishell->pipe_count;
-			// minishell->tokens = tokens_to_char(tokens);
+			for (int i = 0; i < minishell->pipe_count; i++)
+				minishell->fd_arr[i] = malloc(2 * sizeof(int));
+			minishell->doc_arr = malloc((minishell->here_doc_count) * sizeof(int *));
+			if (minishell->here_doc_count!=0 && minishell->doc_arr == 0)
+			{
+				printf("Memmory error!!!!!");
+				return(1);
+			}
+			for (int i = 0; i < minishell->here_doc_count; i++)
+				minishell->doc_arr[i] = malloc(2 * sizeof(int));
 			minishell->env_char = env_to_char(minishell->env_list);
-			if (minishell->pipe_count == 0 && cmds(tokens, minishell, 0) == 2)
+			here_docs_init(minishell);
+			if (minishell->pipe_count == 0 && cmds(minishell->tokens, minishell, -1) == 2)
 				break ;
 			else if (minishell->pipe_count != 0)
 			{
-				pipe_commands_init(minishell, tokens);
+				pipe_commands_init(minishell, minishell->tokens);
 			}
-			delete_tokens(tokens);
-			// free_tokens_char(minishell);
+			delete_tokens(minishell->tokens);
 			free_string_arr(minishell->env_char);
+			free(minishell->cmd_arr);
+			minishell->cmd_arr = 0;
 		}
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(minishell->str);
-		if (minishell->fd_arr != 0)
+		if (minishell->pipe_count !=0 && minishell->fd_arr != 0)
 		{
-			for (int i = 0; i < minishell->pipe_count + 2; i++)
+			for (int i = 0; i < minishell->pipe_count; i++)
 				free(minishell->fd_arr[i]);
-			free(minishell->fd_arr);
 		}
-	}
-	if (minishell->fd_arr != 0)
-	{
-		for (int i = 0; i < minishell->pipe_count + 2; i++)
-			free(minishell->fd_arr[i]);
 		free(minishell->fd_arr);
+		minishell->fd_arr = 0;
+		if (minishell->here_doc_count !=0 && minishell->doc_arr != 0)
+		{
+			for (int i = 0; i < minishell->here_doc_count; i++)
+				free(minishell->doc_arr[i]);
+		}
+		free(minishell->doc_arr);
+		minishell->doc_arr = 0;
 	}
-	delete_tokens(tokens);
-	// free_tokens_char(minishell);
+	if (minishell->pipe_count != 0 && minishell->fd_arr != 0)
+	{
+		for (int i = 0; i < minishell->pipe_count; i++)
+			free(minishell->fd_arr[i]);
+	}
+	if (minishell->here_doc_count !=0 && minishell->doc_arr != 0)
+	{
+		for (int i = 0; i < minishell->here_doc_count; i++)
+			free(minishell->doc_arr[i]);
+	}
+	free(minishell->fd_arr);
+	free(minishell->doc_arr);
+	free(minishell->cmd_arr);
+	delete_tokens(minishell->tokens);
 	free_string_arr(minishell->env_char);
 	delete_env_list(minishell->env_list);
 	free(minishell->str);
 	free(minishell);
-	return (0);
+	return (g_exit_status);
 }
 
 void	delete_tokens(t_tokens	**tokens)
@@ -88,23 +150,23 @@ void	delete_tokens(t_tokens	**tokens)
 	free(tokens);
 }
 
-void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
-{
-	int	*arr;
-	int	i;
+// void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
+// {
+// 	int	*arr;
+// 	int	i;
 
-	i = 0;
-	arr = malloc_word_len_arr(str, minishell);
-	while(arr[i] != -1)
-		printf("token[%d] lenght = %d\n", i, arr[i++]);
-	i = 0;
-	printf("tokens: \n");
-	while (tokens[i] != 0)
-	{
-		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
-		++i;
-	}
-	printf("Pipe Count: %d \n", minishell->pipe_count);
-	free(arr);
-	printf("--------------------------------------------------\n");
-}
+// 	i = 0;
+// 	arr = malloc_word_len_arr(str, minishell);
+// 	while(arr[i] != -1)
+// 		printf("token[%d] lenght = %d\n", i, arr[i++]);
+// 	i = 0;
+// 	printf("tokens: \n");
+// 	while (tokens[i] != 0)
+// 	{
+// 		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
+// 		++i;
+// 	}
+// 	printf("Pipe Count: %d \n", minishell->pipe_count);
+// 	free(arr);
+// 	printf("--------------------------------------------------\n");
+// }

@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 14:24:50 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/06 14:25:44 by rafpetro         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 char	*ft_strdup(char *s)
 {
@@ -56,8 +44,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	str[i + j] = '\0';
 	return (str);
 }
+// poxvac e vor s1-y free ani
 
-char	*ft_strjoin_free1(char *s1, char *s2)// poxvac e vor s1-y free ani
+char	*ft_strjoin_free1(char *s1, char *s2, char c)
 {
 	int		i;
 	int		j;
@@ -75,7 +64,7 @@ char	*ft_strjoin_free1(char *s1, char *s2)// poxvac e vor s1-y free ani
 		str[i] = s1[i];
 		++i;
 	}
-	str[i++] = '/';
+	str[i++] = c;
 	free(s1);
 	while (s2[j] != '\0')
 	{
@@ -100,4 +89,18 @@ void	*ft_calloc(size_t memb, size_t size)
 	while (i < memb * size)
 		str[i++] = 0;
 	return ((void *)str);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	if (str == 0)
+	{
+		return (0);
+	}
+	i = 0;
+	while (str[i] != '\0')
+		++i;
+	return (i);
 }

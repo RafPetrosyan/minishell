@@ -2,74 +2,87 @@
 
 int pipe_commands_init(t_minishell *minishell, t_tokens **tokens)
 {
-	int pipe_index = 0;
-	int pid;
 	int token_index = 0;
+	pid_t pid;
+	int	status;
+	int	her_doc_index;
+	int	i;
 
-	while (pipe_index <= minishell->pipe_count)
+	int backup_stdin  = dup(STDIN_FILENO);
+	int backup_stdout = dup(STDOUT_FILENO);
+
+	i = 0;
+	her_doc_index = -1;
+	while (i < minishell->pipe_count)
 	{
-		if (pipe(minishell->fd_arr[pipe_index]) == -1)
+		if (pipe(minishell->fd_arr[i]) == -1)
 		{
-			perror("pipe");
+			write(2, "pipe\n", 6);
 			return (1);
 		}
-		if (pipe_index == 0)
+		++i;
+	}
+	i = 0;
+	while (i < minishell->pipe_count + 1)
+	{
+		pid = fork();
+		if (pid < 0)
 		{
-			minishell->fd_arr[minishell->pipe_count + 1][1] = dup(STDOUT_FILENO);
-			minishell->fd_arr[minishell->pipe_count + 1][0] = dup(STDIN_FILENO);
+			write(2, "fork\n", 5);
+			return (1);
 		}
-
-		if (pipe_index == 0)
-			dup2(minishell->fd_arr[pipe_index][1], STDOUT_FILENO);
-		else if (pipe_index < minishell->pipe_count)
+		else if (pid == 0)
 		{
-			dup2(minishell->fd_arr[pipe_index - 1][0], STDIN_FILENO);
-			dup2(minishell->fd_arr[pipe_index][1], STDOUT_FILENO);
+			if (i > 0)
+				dup2(minishell->fd_arr[i - 1][0], STDIN_FILENO);
+			if (i < minishell->pipe_count)
+				dup2(minishell->fd_arr[i][1], STDOUT_FILENO);
+			for (int j = 0; j < minishell->pipe_count; j++)
+			{
+				close(minishell->fd_arr[j][0]);
+				close(minishell->fd_arr[j][1]);
+			}
+
+			cmds(&tokens[token_index], minishell, her_doc_index);
+			exit(g_exit_status);
 		}
 		else
 		{
-			dup2(minishell->fd_arr[pipe_index - 1][0], STDIN_FILENO);
-			dup2(minishell->fd_arr[minishell->pipe_count + 1][1], STDOUT_FILENO);
-		}
-
-		pid = fork();
-		if (pid == 0)
-		{
-			for (int i = 0; i <= minishell->pipe_count; ++i)
+			if (i < minishell->pipe_count)
 			{
-				close(minishell->fd_arr[i][0]);
 				close(minishell->fd_arr[i][1]);
 			}
-			close(minishell->fd_arr[minishell->pipe_count + 1][0]);
-			close(minishell->fd_arr[minishell->pipe_count + 1][1]);
-
-			cmds(&tokens[token_index], minishell, token_index);
-			// builtins(&tokens[token_index], minishell, token_index);
-			exit(0);
-		}
-		else if (pid > 0) // Parent process
-		{
-			close(minishell->fd_arr[pipe_index][1]);
-			if (pipe_index > 0)
-				close(minishell->fd_arr[pipe_index - 1][0]);
-		}
-		else
-		{
-			perror("fork");
-			return (1);
+			if (i > 0)
+			{
+				close(minishell->fd_arr[i - 1][0]);
+			}
 		}
 
-		while (tokens[token_index] != 0 && tokens[token_index]->type != 1)
-			++token_index;
-		++token_index;
-		++pipe_index;
+		while (tokens[token_index] && tokens[token_index]->type != PIPE)
+			token_index++;
+		if (tokens[token_index] && tokens[token_index]->type == PIPE)
+			token_index++;
+		for (int j = 0; minishell->tokens[j]->type != PIPE; j++)
+		{
+			if (minishell->tokens[j]->type == HERE_DOCK)
+				++her_doc_index;
+		}
+		
+		++i;
 	}
 
-	dup2(minishell->fd_arr[minishell->pipe_count + 1][0], STDIN_FILENO);
-	close(minishell->fd_arr[minishell->pipe_count + 1][0]);
-	close(minishell->fd_arr[minishell->pipe_count + 1][1]);
+	i =0;
+	while (i < minishell->pipe_count + 1)
+	{
+		waitpid(-1, &status, 0);
+		g_exit_status = WEXITSTATUS(status);
+		++i;
+	}
 
-	for (int i = 0; i <= minishell->pipe_count; ++i)
-		waitpid(-1, NULL, 0);
+	dup2(backup_stdin, STDIN_FILENO);
+	dup2(backup_stdout, STDOUT_FILENO);
+	close(backup_stdin);
+	close(backup_stdout);
+
 	return (0);
 }
