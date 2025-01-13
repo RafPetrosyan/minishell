@@ -18,6 +18,11 @@ int pipe_commands_init(t_minishell *minishell, t_tokens **tokens)
 		if (pipe(minishell->fd_arr[i]) == -1)
 		{
 			write(2, "pipe\n", 6);
+			for (int j = 0; j < i; j++)
+			{
+				close(minishell->fd_arr[j][0]);
+				close(minishell->fd_arr[j][1]);
+			}
 			return (1);
 		}
 		++i;
