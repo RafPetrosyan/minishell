@@ -22,8 +22,8 @@ long long	ft_atoi(char *nptr, int *error)
 			|| ((sign > 0 && (i > 19 || numb > LONG_MAX)))))
 	{
 		++(*error);
-		write(2, " numeric argument required\n", 27);
-		return (2);
+		ft_printf(" numeric argument required\n");
+		return (255);
 	}
 	return (sign * numb);
 }
@@ -40,7 +40,7 @@ int	ft_exit(t_minishell *minishell)
 	if (minishell->cmd_arr[2] != 0 && error == 0)
 	{
 		g_exit_status = 1;
-		write(2, " too many arguments\n", 20);
+		ft_printf(" too many arguments\n");
 		return (1);
 	}
 	if (minishell->cmd_arr[1] != 0)
