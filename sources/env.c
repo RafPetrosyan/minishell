@@ -63,13 +63,16 @@ t_EnvList	*env_to_list(char **env)
 	int			i;
 
 	i = 0;
-	first = add_list(env[i++], 0, 0);
+	first = add_list(env[i], 0, 0);
+	first->type = 0;
+	++i;
 	temp = first;
 	while (env[i] != 0)
 	{
-		temp->next = add_list(env[i++], 0, 0);
+		temp->next = add_list(env[i], 0, 0);
 		temp->next->type = 0;
 		temp = temp->next;
+		++i;
 	}
 	return (first);
 }
