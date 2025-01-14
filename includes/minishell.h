@@ -138,7 +138,7 @@ int		ft_pwd();
 int		ft_cd(t_EnvList *env, char **tokens);
 int		cd_tilda(t_EnvList *env, char *token);
 int		cd_no_arguments(t_EnvList *env);
-int		cd_minus(t_EnvList *env, char *token);
+int		cd_minus(t_EnvList *env, char *token, int j);
 int	cd_non_symbol(t_EnvList *env, char *token);
 int	ft_export_helper(char *str, t_EnvList *env);
 void	delete_tokens(t_tokens	**tokens);
@@ -167,5 +167,6 @@ void	her_doc(char *stop, int fd, t_minishell* minishell);
 int check_syntax(t_tokens **tokens);
 int	veragrel(int *arg1, int arg2);
 void	here_docs_init(t_minishell *minishell);
+void cd_helper(t_EnvList *env, int *i, char *pwd);
 
 #endif

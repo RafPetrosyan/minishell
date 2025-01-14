@@ -9,14 +9,12 @@ int	ft_cd(t_EnvList *env, char **tokens)
 		if (tokens[1][0] == '~')
 			return (cd_tilda(env, tokens[1]));
 		if (tokens[1][0] == '-')
-			return (cd_minus(env, tokens[1]));
+			return (cd_minus(env, tokens[1], 0));
 		return (cd_non_symbol(env, tokens[1]));
 	}
-	g_exit_status = 1;
-	printf("mini: cd:");
-	write(2, " too many arguments\n", 20);
 	return(1);
 }
+
 int	cd_non_symbol(t_EnvList *env, char *token)
 {
 	int		j;
@@ -26,14 +24,7 @@ int	cd_non_symbol(t_EnvList *env, char *token)
 	pwd = getcwd(0, 0);
 	if (chdir(token) == 0)
 	{
-		if (find_to_env_export("OLDPWD", env, &j) != 0)
-			free(find_to_env_export("OLDPWD", env, &j)->value);
-		if (find_to_env_export("PWD", env, &j) != 0)
-			free (find_to_env_export("PWD", env, &j)->value);
-		ft_export_helper("OLDPWD", env);
-		ft_export_helper("PWD", env);
-		find_to_env_export("OLDPWD", env, &j)->value = pwd;
-		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
+		cd_helper(env, &j, pwd);
 		if (find_to_env_export("PWD", env, &j)->value == 0)
 		{
 			ft_printf("mini: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
@@ -42,8 +33,7 @@ int	cd_non_symbol(t_EnvList *env, char *token)
 		return (0);
 	}
 	g_exit_status = 1;
-	ft_printf("mini: cd: %s:", token);
-	write(2, " No such file or directory\n", 27);
+	ft_printf("mini: cd: %s: No such file or directory\n", token);
 	return (1);
 }
 
@@ -56,21 +46,14 @@ int	cd_tilda(t_EnvList *env, char *token)
 	j = 0;
 	path = malloc((ft_strlen(getenv("HOME")) + ft_strlen(token)) * sizeof(char));
 	if (path == 0)
-		return (printf("memory alocation error"));
+		return (ft_printf("memory alocation error"));
 	ft_strlcpy(path, getenv("HOME"), ft_strlen(getenv("HOME")) + 1, &j);
 	ft_strlcpy(path, token + 1, ft_strlen(token), &j);
 	path[j] = '\0';
 	pwd = getcwd(0, 0);
 	if (chdir(path) == 0)
 	{
-		if (find_to_env_export("OLDPWD", env, &j) != 0)
-			free(find_to_env_export("OLDPWD", env, &j)->value);
-		if (find_to_env_export("PWD", env, &j) != 0)
-			free (find_to_env_export("PWD", env, &j)->value);
-		ft_export_helper("OLDPWD", env);
-		ft_export_helper("PWD", env);
-		find_to_env_export("OLDPWD", env, &j)->value = pwd;
-		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
+		cd_helper(env, &j, pwd);
 		free(path);
 		return (0);
 	}
@@ -79,14 +62,12 @@ int	cd_tilda(t_EnvList *env, char *token)
 	return (1);
 }
 
-int	cd_minus(t_EnvList *env, char *token)
+int	cd_minus(t_EnvList *env, char *token, int j)
 {
 	char		*path;
-	int			j;
 	t_EnvList	*oldpwd;
 	char		*pwd;
 
-	j = 0;
 	oldpwd = find_to_env_export("OLDPWD", env, &j);
 	if (oldpwd == 0 || oldpwd->value == 0)
 		return (printf("mini: cd: OLDPWD not set\n"));
@@ -100,14 +81,7 @@ int	cd_minus(t_EnvList *env, char *token)
 	pwd = getcwd(0, 0);
 	if (chdir(path) == 0)
 	{
-		if (find_to_env_export("OLDPWD", env, &j) != 0)
-			free(find_to_env_export("OLDPWD", env, &j)->value);
-		if (find_to_env_export("PWD", env, &j) != 0)
-			free (find_to_env_export("PWD", env, &j)->value);
-		ft_export_helper("OLDPWD", env);
-		ft_export_helper("PWD", env);
-		find_to_env_export("OLDPWD", env, &j)->value = pwd;
-		find_to_env_export("PWD", env, &j)->value = getcwd(0, 0);
+		cd_helper(env, &j, pwd);
 		free(path);
 		return (0);
 	}
@@ -132,17 +106,25 @@ int	cd_no_arguments(t_EnvList *env)
 	pwd = getcwd(0, 0);
 	if (chdir(node->value) == 0)
 	{
-		if (find_to_env_export("OLDPWD", env, &i) != 0)
-			free(find_to_env_export("OLDPWD", env, &i)->value);
-		if (find_to_env_export("PWD", env, &i) != 0)
-			free (find_to_env_export("PWD", env, &i)->value);
-		ft_export_helper("OLDPWD", env);
-		ft_export_helper("PWD", env);
-		find_to_env_export("OLDPWD", env, &i)->value = pwd;
-		find_to_env_export("PWD", env, &i)->value = getcwd(0, 0);
+		cd_helper(env, &i, pwd);
 		return (0);
 	}
 	else
+	{
+		free(pwd);
 		printf("exit chem arel error cd-in\n");
+	}
 	return (1);
+}
+
+void cd_helper(t_EnvList *env, int *i, char *pwd)
+{
+	if (find_to_env_export("OLDPWD", env, i) != 0)
+		free(find_to_env_export("OLDPWD", env, i)->value);
+	if (find_to_env_export("PWD", env, i) != 0)
+		free (find_to_env_export("PWD", env, i)->value);
+	ft_export_helper("OLDPWD", env);
+	ft_export_helper("PWD", env);
+	find_to_env_export("OLDPWD", env, i)->value = pwd;
+	find_to_env_export("PWD", env, i)->value = getcwd(0, 0);
 }

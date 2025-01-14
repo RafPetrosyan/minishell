@@ -10,7 +10,7 @@ void	check_dir(char *str)
 		if (dir != 0)
 		{
 			g_exit_status = 126;
-			write(2, " Is a directory\n", 16);
+			write(2, " is a directory\n", 16);
 			closedir(dir);
 			exit (126);
 		}
@@ -28,7 +28,8 @@ int	ft_execve(t_minishell *minishell)
 	{
 		ft_printf("bash: %s:", minishell->cmd_arr[0]);
 		write(2, " No such file or directory\n", 27);
-		exit(127);
+		g_exit_status = 127;
+		return (127);
 	}
 
 	id = fork();

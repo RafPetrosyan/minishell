@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **env)
 		else
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free(minishell->str);
-		if (minishell->pipe_count !=0 && minishell->fd_arr != 0)
+		if (minishell->pipe_count != 0 && minishell->fd_arr != 0)
 		{
 			for (int i = 0; i < minishell->pipe_count; i++)
 				free(minishell->fd_arr[i]);
@@ -112,6 +112,7 @@ int	main(int argc, char **argv, char **env)
 		free(minishell->doc_arr);
 		minishell->doc_arr = 0;
 	}
+	
 	if (minishell->pipe_count != 0 && minishell->fd_arr != 0)
 	{
 		for (int i = 0; i < minishell->pipe_count; i++)
