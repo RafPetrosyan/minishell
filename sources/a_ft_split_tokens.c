@@ -8,10 +8,16 @@ int	check_operator(char *str, int *i)
 		return (1);
 	else if (str[*i] == '>' && str[*i + 1] != '>' && ++(*i))
 		return (1);
-	else if (str[*i] == '<' && str[*i + 1] == '<' && ((*i) += 2))
+	else if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		(*i) += 2;
 		return (2);
-	else if (str[*i] == '>' && str[*i + 1] == '>' && ((*i) += 2))
+	}
+	else if (str[*i] == '>' && str[*i + 1] == '>')
+	{
+		(*i) += 2;
 		return (2);
+	}
 	return (0);
 }
 
@@ -81,16 +87,14 @@ int	ft_get_word_count(char *str, t_minishell *minishell)
 	return (count);
 }
 
-t_tokens	**split_tokens(int i, char *str,t_minishell *minishell)
+t_tokens	**split_tokens(int i, char *str, t_minishell *minishell, int arr_i)
 {
 	t_tokens	**arr;
 	int			*len_arr;
 	int			tokens_count;
-	int			arr_i;
 
 	tokens_count = ft_get_word_count(str, minishell);
 	len_arr = malloc_word_len_arr(str, minishell);
-	arr_i = 0;
 	arr = (t_tokens **)malloc((tokens_count + 1) * sizeof(t_tokens *));
 	if (arr == 0)
 		return (0);

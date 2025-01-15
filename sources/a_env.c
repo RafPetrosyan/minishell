@@ -25,10 +25,9 @@ int	get_value_len1(char *str, int i)
 	return (count);
 }
 
-t_EnvList	*add_list(char *str, int i, int j)
+t_EnvList	*add_list(char *str, int i, int j, int len)
 {
 	t_EnvList	*node;
-	int			len;
 
 	len = get_key_len(str);
 	node = malloc(sizeof(t_EnvList));
@@ -42,14 +41,13 @@ t_EnvList	*add_list(char *str, int i, int j)
 	}
 	node->key[i] = '\0';
 	len = get_value_len1(str, i);
-	if (str[i] == '=')
+	if (str[i++] == '=')
 		node->value = malloc((len + 1) * sizeof(char));
 	else
 	{
 		node->value = 0;
 		return (node);
 	}
-	++i;
 	while (j < len)
 		node->value[j++] = str[i++];
 	node->value[j] = '\0';
@@ -63,13 +61,13 @@ t_EnvList	*env_to_list(char **env)
 	int			i;
 
 	i = 0;
-	first = add_list(env[i], 0, 0);
+	first = add_list(env[i], 0, 0, 0);
 	first->type = 0;
 	++i;
 	temp = first;
 	while (env[i] != 0)
 	{
-		temp->next = add_list(env[i], 0, 0);
+		temp->next = add_list(env[i], 0, 0, 0);
 		temp->next->type = 0;
 		temp = temp->next;
 		++i;
@@ -85,8 +83,12 @@ int	delete_env_list(t_EnvList *list)
 	{
 		temp = list->next;
 		free(list->key);
+		list->key = 0;
 		if (list->value != 0)
+		{
 			free(list->value);
+			list->value = 0;
+		}
 		free(list);
 		list = temp;
 	}

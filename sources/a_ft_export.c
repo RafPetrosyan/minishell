@@ -67,7 +67,7 @@ int	ft_export_helper(char *str, t_EnvList *env)
 	{
 		while (env->next != 0)
 			env = env->next;
-		env->next = add_list(str, 0, 0);
+		env->next = add_list(str, 0, 0, 0);
 	}
 	return (0);
 }

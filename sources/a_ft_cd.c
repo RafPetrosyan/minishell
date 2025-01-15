@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/14 19:55:12 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/15 23:02:34 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 int	ft_cd(t_EnvList *env, char **tokens)
 {
+	g_exit_status = 0;
 	if (tokens[1] == 0)
-		return(cd_no_arguments(env));
+		return (cd_no_arguments(env));
 	if (tokens[2] == 0)
 	{
 		if (tokens[1][0] == '~')
@@ -12,7 +25,7 @@ int	ft_cd(t_EnvList *env, char **tokens)
 			return (cd_minus(env, tokens[1], 0));
 		return (cd_non_symbol(env, tokens[1]));
 	}
-	return(1);
+	return (1);
 }
 
 int	cd_non_symbol(t_EnvList *env, char *token)
@@ -27,11 +40,14 @@ int	cd_non_symbol(t_EnvList *env, char *token)
 		cd_helper(env, &j, pwd);
 		if (find_to_env_export("PWD", env, &j)->value == 0)
 		{
-			ft_printf("mini: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+			ft_printf("mini: error retrieving current \
+directory: getcwd: cannot access parent directories: \
+No such file or directory\n");
 			return (0);
 		}
 		return (0);
 	}
+	free(pwd);
 	g_exit_status = 1;
 	ft_printf("mini: cd: %s: No such file or directory\n", token);
 	return (1);
@@ -44,7 +60,8 @@ int	cd_tilda(t_EnvList *env, char *token)
 	int		j;
 
 	j = 0;
-	path = malloc((ft_strlen(getenv("HOME")) + ft_strlen(token)) * sizeof(char));
+	path = malloc((ft_strlen(getenv("HOME"))
+				+ ft_strlen(token)) * sizeof(char));
 	if (path == 0)
 		return (ft_printf("memory alocation error"));
 	ft_strlcpy(path, getenv("HOME"), ft_strlen(getenv("HOME")) + 1, &j);
@@ -58,7 +75,9 @@ int	cd_tilda(t_EnvList *env, char *token)
 		return (0);
 	}
 	free(path);
-	///////// error handle
+	free(pwd);
+	g_exit_status = 1;
+	ft_printf("mini: cd: %s: No such file or directory\n", token);
 	return (1);
 }
 
@@ -86,8 +105,9 @@ int	cd_minus(t_EnvList *env, char *token, int j)
 		return (0);
 	}
 	free(path);
-	///////// error handle
-	return (1);
+	free(pwd);
+	ft_printf("mini: cd: %s: No such file or directory\n", oldpwd->value);
+	return (veragrel(&g_exit_status, 1));
 }
 
 int	cd_no_arguments(t_EnvList *env)
@@ -109,15 +129,13 @@ int	cd_no_arguments(t_EnvList *env)
 		cd_helper(env, &i, pwd);
 		return (0);
 	}
-	else
-	{
-		free(pwd);
-		printf("exit chem arel error cd-in\n");
-	}
+	free(pwd);
+	g_exit_status = 1;
+	ft_printf("chdir() failed");
 	return (1);
 }
 
-void cd_helper(t_EnvList *env, int *i, char *pwd)
+void	cd_helper(t_EnvList *env, int *i, char *pwd)
 {
 	if (find_to_env_export("OLDPWD", env, i) != 0)
 		free(find_to_env_export("OLDPWD", env, i)->value);

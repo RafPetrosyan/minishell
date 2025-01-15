@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	write_int_to_arr(char *str, int nmb, int *index)
 {
@@ -43,6 +43,13 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size, int *j)
 	}
 	return (ft_strlen(src));
 }
+int	check_env_key(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9') || c == '_')
+		return (1);
+	return (0);
+}
 
 int	find_to_env(char *str, int *i, t_EnvList *env)
 {
@@ -53,11 +60,7 @@ int	find_to_env(char *str, int *i, t_EnvList *env)
 		j = 0;
 		while (env->key[j] == str[*i + j])
 		{
-			if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' '
-					|| str[*i + j + 1] == '\'' || str[*i + j + 1] == '"'
-					|| str[*i + j + 1] == 0 || str[*i + j + 1] == '\\'
-					|| str[*i + j + 1] == '$' || str[*i + j + 1] == '$'
-					|| str[*i + j + 1] == '/' || str[*i + j + 1] == '\n'))
+			if (env->key[j + 1] == '\0' && !(check_env_key(str[*i + j + 1])))
 			{
 				*i += j + 1;
 				return (ft_strlen(env->value));
@@ -66,8 +69,7 @@ int	find_to_env(char *str, int *i, t_EnvList *env)
 		}
 		env = env->next;
 	}
-	while (str[*i] != ' ' && str[*i] != '\'' && str[*i] != '"'
-		&& str[*i] != '\0' && str[*i] != '\n' && str[*i] != '\\' && str[*i] != '$')
+	while (check_env_key(str[*i]))
 		++(*i);
 	return (0);
 }
@@ -137,7 +139,7 @@ int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j, ch
 	if (str[*index] == '?' && ++(*index))
 	{
 		write_int_to_arr(&token_str[*j], g_exit_status, j);
-		return (1);// ete veradardzvoghy qanakn e apa sxal e
+		return (1);
 	}
 	if (str[*index] == '0' && ++(*index))
 	{
@@ -199,9 +201,7 @@ int	find_to_env_write(char *str, int *i, t_EnvList *env, char *token_str, int *k
 		j = 0;
 		while (env->key[j] == str[*i + j])
 		{
-			if (env->key[j + 1] == '\0' && (str[*i + j + 1] == ' '
-				|| str[*i + j + 1] == '\'' || str[*i + j + 1] == '"'
-				|| str[*i + j + 1] == '\0' || str[*i + j + 1] == '\\' || str[*i + j + 1] == '$' || str[*i + j + 1] == '=' || str[*i + j + 1] == '/' || str[*i + j + 1] == '\n'))
+			if (env->key[j + 1] == '\0' && !(check_env_key(str[*i + j + 1])))
 			{
 				ft_strlcpy(token_str, env->value, ft_strlen(env->value) + 1, k);
 				*i += j + 1;
@@ -212,7 +212,7 @@ int	find_to_env_write(char *str, int *i, t_EnvList *env, char *token_str, int *k
 		}
 		env = env->next;
 	}
-	while (str[*i] != ' ' && str[*i] != '\'' && str[*i] != '"' && str[*i] != '\0' && str[*i] != '\\' && str[*i] != '$' && str[*i] != '\n')
+	while (check_env_key(str[*i]))
 		++(*i);
 	return (count);
 }

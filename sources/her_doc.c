@@ -15,7 +15,7 @@ void	print_inputs(char *lines, int fd, t_minishell *minishell)
 			str = malloc((dollar_arg_len(lines, &index_cpy, minishell) + 1) * sizeof(char));
 			if (str == 0)
 			{
-				write(2, "Memmory erroe!!", 15);
+				ft_printf("Memmory erroe!!");
 				exit(2);
 			}
 			index_cpy=0;
@@ -99,3 +99,4 @@ int check_syntax(t_tokens **tokens)
 	g_exit_status = 0;
 	return (0);
 }
+

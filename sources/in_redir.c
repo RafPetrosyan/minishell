@@ -87,17 +87,6 @@ int cmds(t_tokens **tokens, t_minishell *minishell, int doc_index)
 				close(fd);
 			dup2(minishell->doc_arr[doc_index + 1][0], STDIN_FILENO);
 			fd = minishell->doc_arr[doc_index + 1][0];
-			// int fd1[2];
-			// dup2(saved_fd[0], STDIN_FILENO);
-			// if (pipe(fd1) == -1)
-			// {
-			// 	write(2, "Error!!!\n", 9);
-			// 	exit(2);
-			// }
-			// her_doc(tokens[i + 1]->str, fd1[1]);
-			// dup2(fd1[0], STDIN_FILENO);
-			// close(fd1[1]);
-			// fd = fd1[0];
 			++doc_index;
 			i += 2;
 			continue;

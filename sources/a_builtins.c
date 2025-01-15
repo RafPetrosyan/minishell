@@ -100,8 +100,7 @@ int	ft_pwd(void)
 	}
 	else
 	{
-		ft_printf("mini: cd: ");
-		write(2, "Goyutyun chunecogh panakum enq\n", 32);
+		ft_printf("mini: cd: We are in a directory that does not exist.");
 		g_exit_status = 1;
 		return (1);
 	}

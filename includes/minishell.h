@@ -22,7 +22,7 @@
 # define HERE_DOCK 4
 # define OUT_APPEND_REDIR 5
 
-extern char	g_exit_status;
+extern int	g_exit_status;
 
 typedef struct	s_token
 {
@@ -72,7 +72,7 @@ int			write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *mi
 int			write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *minishell);
 int			write_one_quote(char *str, int *i, t_tokens *token, int *j);
 int			write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *minishell);
-t_tokens	**split_tokens(int i, char *str, t_minishell *minishell);
+t_tokens	**split_tokens(int i, char *str, t_minishell *minishell, int arr_i);
 
 
 t_EnvList *env_to_list(char **env);
@@ -89,7 +89,7 @@ int		write_dollar_quote(int *index, char *token_str, t_minishell *minishell, int
 
 /////////		env			/////////
 
-t_EnvList	*add_list(char *str, int i, int j);
+t_EnvList	*add_list(char *str, int i, int j, int len);
 
 /////////       libft       /////////
 
@@ -168,5 +168,11 @@ int check_syntax(t_tokens **tokens);
 int	veragrel(int *arg1, int arg2);
 void	here_docs_init(t_minishell *minishell);
 void cd_helper(t_EnvList *env, int *i, char *pwd);
+void	delete_fd_arrs(t_minishell *minishell);
+void	free_memory(t_minishell *minishell, int code);
+void	delete_fd_arrs(t_minishell *minishell);
+void	anyndhat(t_minishell *minishell);
+void	set_default_values(t_minishell *minishell);
+void	allocated_fd_arrs(t_minishell *minishell);
 
 #endif

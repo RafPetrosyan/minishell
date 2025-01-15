@@ -13,4 +13,5 @@ void	free_string_arr(char **arr)
 		++i;
 	}
 	free(arr);
+	arr = 0;
 }
