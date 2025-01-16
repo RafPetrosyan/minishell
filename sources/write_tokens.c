@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   write_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:54 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:55 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	write_operator(char *str, int *i, t_tokens *token, int *j)
@@ -26,11 +38,13 @@ int	write_operator(char *str, int *i, t_tokens *token, int *j)
 	return (count);
 }
 
-int	write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
+int	write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
 {
 	int	j;
 	int count;
+	char *str;
 
+	str = minishell->str;
 	j = 0;
 	count = 0;
 	while (str[*i] != '\0' && str[*i] == ' ')
@@ -40,7 +54,7 @@ int	write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *mini
 		if (str[*i] == '\'')
 			count += write_one_quote(str, i, arr[arr_i], &j);
 		else if (str[*i] == '"')
-			count += write_two_quote(str, i, arr[arr_i], &j, minishell);
+			count += write_two_quote(i, arr[arr_i], &j, minishell);
 		else
 		{
 			count += write_non_quote(str, i, arr[arr_i], &j, minishell);
@@ -131,11 +145,13 @@ int write_one_quote(char *str, int *i, t_tokens *token, int *j)
 }
 
 
-int write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *minishell)
+int write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell)
 {
 	int flag;
 	int count;
+	char *str;
 
+	str = minishell->str;
 	flag = 0;
 	count = 0;
 	while (str[*i] != '\0')

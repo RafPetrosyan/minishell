@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_execve.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:40 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:40 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	check_dir(char *str)
@@ -70,7 +82,7 @@ int	ft_execve(t_minishell *minishell)
 		write(2, " command not found\n", 19);
 		exit(127);
 	}
-	free_string_arr(paths);
+	free_string_arr(paths, 0);
 	return (0);
 	// zut 0 em return arel
 }

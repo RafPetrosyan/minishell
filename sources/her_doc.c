@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   her_doc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:42 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:43 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_inputs(char *lines, int fd, t_minishell *minishell)
@@ -35,6 +47,7 @@ void	her_doc(char *stop, int fd, t_minishell* minishell)
 	char	*str;
 	char	*lines;
 
+	str = "";
 	lines = readline("> ");
 	if (lines == 0)
 		return;
@@ -43,7 +56,7 @@ void	her_doc(char *stop, int fd, t_minishell* minishell)
 		free(lines);
 		return;
 	}
-	while (1)
+	while (str != 0)
 	{
 		str = readline("> ");
 		if (str == 0)

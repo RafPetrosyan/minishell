@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   anyndhat.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:32 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:33 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	check_line_null(char *str)
@@ -16,13 +28,29 @@ void	check_line_null(char *str)
 	}
 }
 
+void	show_ctl(int sig)
+{
+	struct termios	new;
+
+	tcgetattr(0, &new);
+	if (sig)
+		new.c_lflag |= ECHOCTL;
+	else
+		new.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &new);
+}
+
+
 void	anyndhat(t_minishell *minishell)
 {
-	while (1)
+	while (minishell->str)
 	{
+		show_ctl(0);
+		signal(SIGQUIT, SIG_IGN);
+		handle_signal();
 		minishell->str = readline("\033[38;5;43mMinishell:\033[0;000m ");
 		if (minishell->str == 0)
-			return ;
+			break ;
 		check_line_null(minishell->str);
 		if (check_quote(minishell) == 1)
 		{
@@ -44,4 +72,5 @@ void	anyndhat(t_minishell *minishell)
 			printf("Chakerty bacvel e u chi pakvel kam verjin simvoly '\\' e:\n");
 		free_memory(minishell, 0);
 	}
+	printf("exit\n");
 }

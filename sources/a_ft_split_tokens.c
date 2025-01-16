@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   a_ft_split_tokens.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:15 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:16 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_operator(char *str, int *i)
@@ -107,7 +119,7 @@ t_tokens	**split_tokens(int i, char *str, t_minishell *minishell, int arr_i)
 		arr[arr_i]->str = malloc((len_arr[arr_i] + 1) * sizeof(char));
 		if (arr[arr_i]->str == 0)
 			return (0);
-		if (write_tokens(str, &i, arr, arr_i, minishell) != 0)
+		if (write_tokens(&i, arr, arr_i, minishell) != 0)
 			++arr_i;
 	}
 	arr[tokens_count] = 0;

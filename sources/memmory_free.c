@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memmory_free.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:50 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:51 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_memory(t_minishell *minishell, int code)
 {
-	delete_tokens(minishell->tokens);
-	free_string_arr(minishell->env_char);
+	delete_tokens(minishell->tokens, minishell);
+	free_string_arr(minishell->env_char, minishell);
 	free(minishell->cmd_arr);
 	minishell->cmd_arr = 0;
 	delete_fd_arrs(minishell);
@@ -18,7 +30,7 @@ void	free_memory(t_minishell *minishell, int code)
 	}
 }
 
-void	delete_tokens(t_tokens	**tokens)
+void	delete_tokens(t_tokens	**tokens, t_minishell *minishell)
 {
 	int	i;
 
@@ -33,7 +45,7 @@ void	delete_tokens(t_tokens	**tokens)
 		++i;
 	}
 	free(tokens);
-	tokens = 0;
+	minishell->tokens = 0;
 }
 
 void	delete_fd_arrs(t_minishell *minishell)

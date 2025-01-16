@@ -12,7 +12,9 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <stdarg.h>
-
+# include <termios.h>
+# include <string.h>
+# include <sys/stat.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 
@@ -68,10 +70,10 @@ int	ft_strlen(char *str);
 int			ft_get_word_len(char *str, int *i, t_minishell *minishell);
 int			*malloc_word_len_arr(char *str, t_minishell *minishell);
 int			ft_get_word_count(char *str, t_minishell *minishell);
-int			write_tokens(char *str, int *i, t_tokens **arr, int arr_i, t_minishell *minishell);
+int			write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell);
 int			write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *minishell);
 int			write_one_quote(char *str, int *i, t_tokens *token, int *j);
-int			write_two_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *minishell);
+int			write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell);
 t_tokens	**split_tokens(int i, char *str, t_minishell *minishell, int arr_i);
 
 
@@ -141,12 +143,8 @@ int		cd_no_arguments(t_EnvList *env);
 int		cd_minus(t_EnvList *env, char *token, int j);
 int	cd_non_symbol(t_EnvList *env, char *token);
 int	ft_export_helper(char *str, t_EnvList *env);
-void	delete_tokens(t_tokens	**tokens);
-// char	**tokens_to_char(t_tokens **arr);
-void	free_string_arr(char **arr);
-// void	ft_change_shlvl(t_EnvList *shlvl);
-
-
+void	delete_tokens(t_tokens	**tokens, t_minishell *minishell);
+void	free_string_arr(char **arr, t_minishell *minishell);
 
 int	ft_execve(t_minishell *minishell);
 char	**env_to_char(t_EnvList *env_list);
@@ -158,21 +156,24 @@ void	env_to_char_helper(char **env, t_EnvList *env_list);
 int	pipe_commands_init(t_minishell *minishell, t_tokens **tokens);
 int cmds(t_tokens **tokens, t_minishell *minishell, int doc_index);
 
-void	*ft_malloc(int count, int size, t_minishell *minishell);
-int	ft_exit(t_minishell *minishell);
+// void	*ft_malloc(int count, int size, t_minishell *minishell);
+int			ft_exit(t_minishell *minishell);
 long long	ft_atoi(char *nptr, int *error);
 
-int	ft_printf(const char *format, ...);
+int		ft_printf(const char *format, ...);
 void	her_doc(char *stop, int fd, t_minishell* minishell);
-int check_syntax(t_tokens **tokens);
-int	veragrel(int *arg1, int arg2);
+int		check_syntax(t_tokens **tokens);
+int		veragrel(int *arg1, int arg2);
 void	here_docs_init(t_minishell *minishell);
-void cd_helper(t_EnvList *env, int *i, char *pwd);
+void	cd_helper(t_EnvList *env, int *i, char *pwd);
 void	delete_fd_arrs(t_minishell *minishell);
 void	free_memory(t_minishell *minishell, int code);
 void	delete_fd_arrs(t_minishell *minishell);
 void	anyndhat(t_minishell *minishell);
 void	set_default_values(t_minishell *minishell);
 void	allocated_fd_arrs(t_minishell *minishell);
-
+void	show_ctl(int sig);
+void	sig_handler_sa(int signal);
+int		handle_signal(void);
+// void	signals(void);
 #endif

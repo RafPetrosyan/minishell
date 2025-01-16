@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   a_ft_exit.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 16:50:05 by rafpetro          #+#    #+#             */
+/*   Updated: 2025/01/16 16:50:06 by rafpetro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 long long	ft_atoi(char *nptr, int *error)
@@ -45,9 +57,8 @@ int	ft_exit(t_minishell *minishell)
 	}
 	if (minishell->cmd_arr[1] != 0)
 	{
-		// free all memory
+		free_memory(minishell, 1);
 		exit(g_exit_status);
 	}
 	return (0);
-	// zut 0 em return arel
 }
