@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:50 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 16:50:51 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/16 23:46:54 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	delete_tokens(t_tokens	**tokens, t_minishell *minishell)
 
 	i = 0;
 	if (tokens == 0)
-		return;
+		return ;
 	while (tokens[i] != 0)
 	{
 		free(tokens[i]->str);
@@ -63,9 +63,8 @@ void	delete_fd_arrs(t_minishell *minishell)
 	}
 	free(minishell->fd_arr);
 	minishell->fd_arr = 0;
-
 	i = 0;
-	if (minishell->here_doc_count !=0 && minishell->doc_arr != 0)
+	if (minishell->here_doc_count != 0 && minishell->doc_arr != 0)
 	{
 		while (i < minishell->here_doc_count && minishell->doc_arr[i] != 0)
 		{

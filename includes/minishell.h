@@ -175,5 +175,9 @@ void	allocated_fd_arrs(t_minishell *minishell);
 void	show_ctl(int sig);
 void	sig_handler_sa(int signal);
 int		handle_signal(void);
+int	open_pipes(t_minishell *minishell);
+void	prepare_for_the_next_command(int *i, int *token_index, t_minishell *minishell, int *her_doc_index);
+int	open_and_run_forks(t_minishell *minishell, t_tokens **tokens, int *token_index, int *her_doc_index);
+
 // void	signals(void);
 #endif

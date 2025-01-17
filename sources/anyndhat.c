@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:32 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 16:50:33 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:03:16 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,26 @@ void	show_ctl(int sig)
 		new.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, TCSANOW, &new);
 }
+// void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
+// {
+// 	int	*arr;
+// 	int	i;
 
+// 	i = 0;
+// 	arr = malloc_word_len_arr(str, minishell);
+// 	while(arr[i] != -1)
+// 		printf("token[%d] lenght = %d\n", i, arr[i++]);
+// 	i = 0;
+// 	printf("tokens: \n");
+// 	while (tokens[i] != 0)
+// 	{
+// 		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
+// 		++i;
+// 	}
+// 	printf("Pipe Count: %d \n", minishell->pipe_count);
+// 	free(arr);
+// 	printf("--------------------------------------------------\n");
+// }
 
 void	anyndhat(t_minishell *minishell)
 {
@@ -55,6 +74,7 @@ void	anyndhat(t_minishell *minishell)
 		if (check_quote(minishell) == 1)
 		{
 			minishell->tokens = split_tokens(0, minishell->str, minishell, 0);
+			// print_tokens_info(minishell->str,minishell,minishell->tokens);
 			if (check_syntax(minishell->tokens) == 2)
 			{
 				free_memory(minishell, 0);

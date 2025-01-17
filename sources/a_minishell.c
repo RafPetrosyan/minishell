@@ -6,12 +6,11 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:24 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 16:50:25 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:01:13 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include <unistd.h>
+#include "minishell.h"
 
 int	g_exit_status = 0;
 
@@ -41,6 +40,7 @@ void	*ft_memset(void *b, int c, size_t len)
 		str[i++] = a;
 	return (b);
 }
+
 void	sig_handler_sa(int signal)
 {
 	if (signal == SIGINT)
@@ -79,24 +79,3 @@ int	main(int argc, char **argv, char **env)
 	anyndhat(minishell);
 	free_memory(minishell, 1);
 }
-
-// void print_tokens_info(char *str, t_minishell *minishell, t_tokens **tokens)
-// {
-// 	int	*arr;
-// 	int	i;
-
-// 	i = 0;
-// 	arr = malloc_word_len_arr(str, minishell);
-// 	while(arr[i] != -1)
-// 		printf("token[%d] lenght = %d\n", i, arr[i++]);
-// 	i = 0;
-// 	printf("tokens: \n");
-// 	while (tokens[i] != 0)
-// 	{
-// 		printf("%s=%d\n", tokens[i]->str, tokens[i]->type);
-// 		++i;
-// 	}
-// 	printf("Pipe Count: %d \n", minishell->pipe_count);
-// 	free(arr);
-// 	printf("--------------------------------------------------\n");
-// }

@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:54 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 16:50:55 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 00:54:45 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	write_operator(char *str, int *i, t_tokens *token, int *j)
 
 int	write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
 {
-	int	j;
-	int count;
-	char *str;
+	int		j;
+	int		count;
+	char	*str;
 
 	str = minishell->str;
 	j = 0;
@@ -64,7 +64,7 @@ int	write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
 				return (count);
 			}
 		}
-		if (str[*i] == ' ' || str[*i] == '|' || str[*i] == '<' || str[*i] =='>')
+		if (str[*i] == ' ' || str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 			break ;
 	}
 	arr[arr_i]->str[j] = '\0';
@@ -74,27 +74,27 @@ int	write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
 int	set_type(char *str, int *i, t_tokens *token)
 {
 	if (str[*i] == '|')
-		return(token->type = 1);
+		return (token->type = 1);
 	else if (str[(*i)] == '<' && str[(*i) + 1] != '<')
-		return(token->type = 2);
+		return (token->type = 2);
 	else if (str[*i] == '>' && str[*i + 1] != '>')
-		return(token->type = 3);
+		return (token->type = 3);
 	else if (str[*i] == '<' && str[*i + 1] == '<')
-		return(token->type = 4);
+		return (token->type = 4);
 	else if (str[*i] == '>' && str[*i + 1] == '>')
-		return(token->type = 5);
+		return (token->type = 5);
 	return (0);
 }
 
-int	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *minishell)
+int	write_non_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *minishell)
 {
-	int k;
-	int count;
+	int	k;
+	int	count;
 
 	k = *i;
 	count = 0;
 	while (str[*i] != '\0')
-	{  
+	{
 		if (str[*i] == '$')
 			count += write_dollar(i, token->str, minishell, j, minishell->str);
 		else if (check_operator(str, &k) != 0)
@@ -119,10 +119,10 @@ int	write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *mi
 	return (count);
 }
 
-int write_one_quote(char *str, int *i, t_tokens *token, int *j)
+int	write_one_quote(char *str, int *i, t_tokens *token, int *j)
 {
-	int flag;
-	int count;
+	int	flag;
+	int	count;
 
 	flag = 0;
 	count = 0;
@@ -132,7 +132,7 @@ int write_one_quote(char *str, int *i, t_tokens *token, int *j)
 		{
 			++flag;
 			++(*i);
-			continue;
+			continue ;
 		}
 		if (flag == 2)
 			return (count);
@@ -144,12 +144,11 @@ int write_one_quote(char *str, int *i, t_tokens *token, int *j)
 	return (count);
 }
 
-
-int write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell)
+int	write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell)
 {
-	int flag;
-	int count;
-	char *str;
+	int		flag;
+	int		count;
+	char	*str;
 
 	str = minishell->str;
 	flag = 0;
@@ -162,7 +161,7 @@ int write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell)
 			++flag;
 			if (flag == 2)
 				return (count);
-			continue;
+			continue ;
 		}
 		if (str[*i] == '$')
 			count += write_dollar_quote(i, token->str, minishell, j);
