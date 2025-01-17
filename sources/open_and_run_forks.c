@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 23:49:02 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 23:49:26 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:31:10 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ int	open_and_run_forks(t_minishell *minishell, t_tokens **tokens, int *token_ind
 		}
 		prepare_for_the_next_command(&i, token_index, minishell, her_doc_index);
 	}
+	return (0);
 }
