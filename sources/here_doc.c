@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   her_doc.c                                          :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:42 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/17 00:51:21 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:42:19 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_inputs(char *lines, int fd, t_minishell *minishell)
+void	print_inputs(int fd, t_minishell *minishell)
 {
 	int		index;
 	int		index_cpy;
 	char	*str;
 
 	index = 0;
-	while (lines[index] != 0)
+	while (minishell->here_doc_str[index] != 0)
 	{
-		if (lines[index] == '$')
+		if (minishell->here_doc_str[index] == '$')
 		{
 			index_cpy = index;
-			str = malloc((dollar_arg_len(lines, &index_cpy, minishell) + 1) * sizeof(char));
+			str = malloc((dollar_arg_len(minishell->here_doc_str, &index_cpy, minishell) + 1) * sizeof(char));
 			if (str == 0)
 			{
 				ft_printf("Memmory erroe!!");
 				exit(2);
 			}
 			index_cpy=0;
-			write_dollar(&index, str, minishell, &index_cpy, lines);
+			write_dollar(&index, str, minishell, &index_cpy);
 			write(fd, str, index_cpy);
 			free(str);
 			continue;
 		}
-		write(fd, &lines[index], 1);
+		write(fd, &minishell->here_doc_str[index], 1);
 		++index;
 	}
 	write(fd, "\n", 1);
@@ -45,15 +45,15 @@ void	print_inputs(char *lines, int fd, t_minishell *minishell)
 void	her_doc(char *stop, int fd, t_minishell* minishell)
 {
 	char	*str;
-	char	*lines;
 
 	str = "";
-	lines = readline("> ");
-	if (lines == 0)
+	minishell->here_doc_str = readline("> ");
+	if (minishell->here_doc_str == 0)
 		return;
-	if (ft_strcmp(lines, stop) == 0)
+	if (ft_strcmp(minishell->here_doc_str, stop) == 0)
 	{
-		free(lines);
+		free(minishell->here_doc_str);
+		minishell->here_doc_str = 0;
 		return;
 	}
 	while (str != 0)
@@ -62,20 +62,22 @@ void	her_doc(char *stop, int fd, t_minishell* minishell)
 		if (str == 0)
 		{
 			write(2,"Memmory error !!!!\n", 19);
-			free(lines);
+			free(minishell->here_doc_str);
+			minishell->here_doc_str = 0;
 			// exit
 			return ;
 		}
 		if (ft_strcmp(str, stop) != 0)
 		{
-			lines = ft_strjoin_free1(lines, str, '\n');
+			minishell->here_doc_str = ft_strjoin_free1(minishell->here_doc_str, str, '\n');
 			free(str);
 		}
 		else
 		{
-			print_inputs(lines, fd, minishell);
+			print_inputs(fd, minishell);
 			free(str);
-			free(lines);
+			free(minishell->here_doc_str);
+			minishell->here_doc_str = 0;
 			break;
 		}
 	}

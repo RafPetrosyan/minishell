@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:36 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 16:50:37 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:41:46 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,15 @@ int	dollar_arg_len_quote(int *index, t_minishell *minishell)
 	return (find_to_env(str, index, minishell->env_list));
 }
 
-int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j, char *str)
+int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j)
 {
 	int		count;
+	char *str;
+
+	if (minishell->here_doc_str == 0)
+		str = minishell->str;
+	else
+		str = minishell->here_doc_str;
 
 	count = 0;
 	++(*index);
@@ -163,7 +169,7 @@ int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j, ch
 		return (count);
 	if (str[*index] == '\'' || str[*index] == '"')
 		return (count);
-	count += find_to_env_write(str, index, minishell->env_list, token_str, j);
+	count += find_to_env_write(index, minishell, token_str, j);
 	return (count);
 }
 
@@ -198,14 +204,22 @@ int	write_dollar_quote(int *index, char *token_str, t_minishell *shell, int *j)
 		return (count);
 	if (str[*index] == '\'' || str[*index] == '"')
 		return (count);
-	count += find_to_env_write(str, index, shell->env_list, token_str, j);
+	count += find_to_env_write(index, shell, token_str, j);
 	return (count);
 }
 
-int	find_to_env_write(char *str, int *i, t_EnvList *env, char *token_str, int *k)
+int	find_to_env_write(int *i, t_minishell *minishell, char *token_str, int *k)
 {
 	int j;
 	int count;
+	char *str;
+	t_EnvList	*env;
+
+	env = minishell->env_list;	
+	if (minishell->here_doc_str == 0)
+		str = minishell->str;
+	else
+		str = minishell->here_doc_str;
 
 	count = 0;
 	while (env != 0)

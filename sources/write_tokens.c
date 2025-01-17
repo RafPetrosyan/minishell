@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:54 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/17 00:54:45 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:32:46 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell)
 			count += write_two_quote(i, arr[arr_i], &j, minishell);
 		else
 		{
-			count += write_non_quote(str, i, arr[arr_i], &j, minishell);
+			count += write_non_quote(i, arr[arr_i], &j, minishell);
 			if (str[*i - 1] == '|' || str[*i - 1] == '<' || str[*i - 1] == '>')
 			{
 				arr[arr_i]->str[j] = '\0';
@@ -86,17 +86,22 @@ int	set_type(char *str, int *i, t_tokens *token)
 	return (0);
 }
 
-int	write_non_quote(char *str, int *i, t_tokens *token, int *j, t_minishell *minishell)
+int	write_non_quote(int *i, t_tokens *token, int *j, t_minishell *minishell)
 {
 	int	k;
 	int	count;
+	char *str;
 
 	k = *i;
 	count = 0;
+	if (minishell->here_doc_str == 0)
+		str = minishell->str;
+	else
+		str = minishell->here_doc_str;
 	while (str[*i] != '\0')
 	{
 		if (str[*i] == '$')
-			count += write_dollar(i, token->str, minishell, j, minishell->str);
+			count += write_dollar(i, token->str, minishell, j);
 		else if (check_operator(str, &k) != 0)
 		{
 			if (set_type(str, i, token) == PIPE)

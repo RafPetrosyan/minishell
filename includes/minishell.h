@@ -57,6 +57,7 @@ typedef struct	s_minishell
 	int			**doc_arr;
 	int			**fd_arr;
 	char		**cmd_arr;
+	char		*here_doc_str;
 }	t_minishell;
 
 int check_quote(t_minishell *minishell);
@@ -71,7 +72,7 @@ int			ft_get_word_len(char *str, int *i, t_minishell *minishell);
 int			*malloc_word_len_arr(char *str, t_minishell *minishell);
 int			ft_get_word_count(char *str, t_minishell *minishell);
 int			write_tokens(int *i, t_tokens **arr, int arr_i, t_minishell *minishell);
-int			write_non_quote(char *str, int *i, t_tokens *token, int *j , t_minishell *minishell);
+int			write_non_quote(int *i, t_tokens *token, int *j , t_minishell *minishell);
 int			write_one_quote(char *str, int *i, t_tokens *token, int *j);
 int			write_two_quote(int *i, t_tokens *token, int *j, t_minishell *minishell);
 t_tokens	**split_tokens(int i, char *str, t_minishell *minishell, int arr_i);
@@ -83,10 +84,10 @@ int delete_env_list(t_EnvList *list);
 /////////       dollar       /////////
 
 int		find_to_env(char *str, int *i, t_EnvList *env);
-int		find_to_env_write(char *str, int *i, t_EnvList *env, char *token_str, int *k);
+int		find_to_env_write(int *i, t_minishell	*minishell, char *token_str, int *k);
 int		dollar_arg_len(char *str, int *index, t_minishell *minishell);
 int		dollar_arg_len_quote(int *index, t_minishell *minishell);
-int		write_dollar(int *index, char *token_str, t_minishell *minishell, int *j, char *str);
+int		write_dollar(int *index, char *token_str, t_minishell *minishell, int *j);
 int		write_dollar_quote(int *index, char *token_str, t_minishell *minishell, int *j);
 
 /////////		env			/////////
