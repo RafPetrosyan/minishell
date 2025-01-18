@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:50:36 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/17 15:41:46 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/18 10:13:34 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ size_t	ft_strlcpy(char *dst, char *src, size_t size, int *j)
 	}
 	return (ft_strlen(src));
 }
+
 int	check_env_key(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-			|| (c >= '0' && c <= '9') || c == '_')
+		|| (c >= '0' && c <= '9') || c == '_')
 		return (1);
 	return (0);
 }
@@ -139,13 +140,12 @@ int	dollar_arg_len_quote(int *index, t_minishell *minishell)
 int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j)
 {
 	int		count;
-	char *str;
+	char	*str;
 
 	if (minishell->here_doc_str == 0)
 		str = minishell->str;
 	else
 		str = minishell->here_doc_str;
-
 	count = 0;
 	++(*index);
 	if (str[*index] == '\0' || (str[*index] == '\\' || str[*index] == ' '))
@@ -154,20 +154,10 @@ int	write_dollar(int *index, char *token_str, t_minishell *minishell, int *j)
 		++count;
 		return (count);
 	}
-	if (str[*index] == '?' && ++(*index))
-	{
-		write_int_to_arr(&token_str[*j], g_exit_status, j);
-		return (1);
-	}
-	if (str[*index] == '0' && ++(*index))
-	{
-		ft_strlcpy(token_str + *j, "bash", 5, j);
-		count += 4;
-		return (count);
-	}
-	if (str[*index] >= '1' && str[*index] <= '9' && ++(*index))
-		return (count);
-	if (str[*index] == '\'' || str[*index] == '"')
+	count = write_dollar_helper(index, str, token_str, j);
+	if (count == -1)
+		count = 0;
+	else
 		return (count);
 	count += find_to_env_write(index, minishell, token_str, j);
 	return (count);
@@ -188,10 +178,23 @@ int	write_dollar_quote(int *index, char *token_str, t_minishell *shell, int *j)
 		++count;
 		return (count);
 	}
+	count = write_dollar_helper(index, str, token_str, j);
+	if (count == -1)
+		count = 0;
+	else
+		return (count);
+	count += find_to_env_write(index, shell, token_str, j);
+	return (count);
+}
+
+int	write_dollar_helper(int *index, char *str, char *token_str, int *j)
+{
+	int	count;
+
+	count = 0;
 	if (str[*index] == '?' && ++(*index))
 	{
-		token_str[(*j)] = '0';
-		++(*j);
+		write_int_to_arr(&token_str[*j], g_exit_status, j);
 		return (1);
 	}
 	if (str[*index] == '0' && ++(*index))
@@ -204,23 +207,21 @@ int	write_dollar_quote(int *index, char *token_str, t_minishell *shell, int *j)
 		return (count);
 	if (str[*index] == '\'' || str[*index] == '"')
 		return (count);
-	count += find_to_env_write(index, shell, token_str, j);
-	return (count);
+	return (-1);
 }
 
 int	find_to_env_write(int *i, t_minishell *minishell, char *token_str, int *k)
 {
-	int j;
-	int count;
-	char *str;
+	int			j;
+	int			count;
+	char		*str;
 	t_EnvList	*env;
 
-	env = minishell->env_list;	
+	env = minishell->env_list;
 	if (minishell->here_doc_str == 0)
 		str = minishell->str;
 	else
 		str = minishell->here_doc_str;
-
 	count = 0;
 	while (env != 0)
 	{

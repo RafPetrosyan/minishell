@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_memory(t_minishell *minishell, int code)
+int	free_memory(t_minishell *minishell, int code)
 {
 	delete_tokens(minishell->tokens, minishell);
 	free_string_arr(minishell->env_char, minishell);
@@ -22,12 +22,14 @@ void	free_memory(t_minishell *minishell, int code)
 	minishell->pipe_count = 0;
 	minishell->here_doc_count = 0;
 	free(minishell->str);
+	free(minishell->here_doc_str);
 	if (code == 1)
 	{
 		delete_env_list(minishell->env_list);
 		free(minishell);
 		exit(g_exit_status);
 	}
+	return (1);
 }
 
 void	delete_tokens(t_tokens	**tokens, t_minishell *minishell)

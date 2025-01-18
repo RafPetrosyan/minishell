@@ -6,7 +6,7 @@
 /*   By: rafpetro <rafpetro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 23:38:25 by rafpetro          #+#    #+#             */
-/*   Updated: 2025/01/16 23:38:26 by rafpetro         ###   ########.fr       */
+/*   Updated: 2025/01/18 10:56:07 by rafpetro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,8 @@ int	open_pipes(t_minishell *minishell)
 	{
 		if (pipe(minishell->fd_arr[i]) == -1)
 		{
-			ft_printf("pipe\n");
-			while (j < i)
-			{
-				close(minishell->fd_arr[j][0]);
-				close(minishell->fd_arr[j][1]);
-				++j;
-			}
+			ft_printf("mini: Pipe open error\n");
+			close_open_pipes(minishell->fd_arr, i);
 			return (1);
 		}
 		++i;
@@ -56,4 +51,17 @@ void	prepare_for_the_next_command(int *i, int *token_index,
 		++j;
 	}
 	++(*i);
+}
+
+void	close_open_pipes(int **pipes_arr, int minchev)
+{
+	int	i;
+
+	i = 0;
+	while (i < minchev)
+	{
+		close(pipes_arr[i][0]);
+		close(pipes_arr[i][1]);
+		++i;
+	}
 }

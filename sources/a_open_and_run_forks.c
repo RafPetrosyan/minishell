@@ -12,7 +12,28 @@
 
 #include "minishell.h"
 
-int	open_and_run_forks(t_minishell *minishell, t_tokens **tokens, int *token_index, int *her_doc_index)
+void	kapel_forkery_ashxatacnel(int i, t_minishell *minishell,
+	t_tokens **tokens, int *her_doc_index)
+{
+	int	j;
+
+	j = 0;
+	if (i > 0)
+		dup2(minishell->fd_arr[i - 1][0], STDIN_FILENO);
+	if (i < minishell->pipe_count)
+		dup2(minishell->fd_arr[i][1], STDOUT_FILENO);
+	while (j < minishell->pipe_count)
+	{
+		close(minishell->fd_arr[j][0]);
+		close(minishell->fd_arr[j][1]);
+		++j;
+	}
+	cmds(tokens, minishell, *her_doc_index);
+	exit(g_exit_status);
+}
+
+int	open_and_run_forks(t_minishell *minishell,
+	t_tokens **tokens, int *token_index, int *her_doc_index)
 {
 	int		i;
 	int		pid;
@@ -27,19 +48,8 @@ int	open_and_run_forks(t_minishell *minishell, t_tokens **tokens, int *token_ind
 			return (1);
 		}
 		else if (pid == 0)
-		{
-			if (i > 0)
-				dup2(minishell->fd_arr[i - 1][0], STDIN_FILENO);
-			if (i < minishell->pipe_count)
-				dup2(minishell->fd_arr[i][1], STDOUT_FILENO);
-			for (int j = 0; j < minishell->pipe_count; j++)
-			{
-				close(minishell->fd_arr[j][0]);
-				close(minishell->fd_arr[j][1]);
-			}
-			cmds(&tokens[*token_index], minishell, *her_doc_index);
-			exit(g_exit_status);
-		}
+			kapel_forkery_ashxatacnel(i, minishell,
+				&tokens[*token_index], her_doc_index);
 		else
 		{
 			if (i < minishell->pipe_count)

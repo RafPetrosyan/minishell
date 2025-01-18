@@ -30,12 +30,6 @@ typedef struct	s_token
 {
 	char	*str;
 	int		type;
-	// 0 = word
-	// 1 = pipe
-	// 2 = <
-	// 3 = >
-	// 4 = <<
-	// 5 = >>
 }	t_tokens;
 
 typedef struct	s_EnvList
@@ -43,8 +37,9 @@ typedef struct	s_EnvList
 	char	*key;
 	char	*value;
 	struct	s_EnvList *next;
-	int		type;// 0-print  1-nonprint
+	int		type;
 }	t_EnvList;
+// type: 0-print  1-nonprint
 
 typedef struct	s_minishell
 {
@@ -58,6 +53,7 @@ typedef struct	s_minishell
 	int			**fd_arr;
 	char		**cmd_arr;
 	char		*here_doc_str;
+	int			saved_fd[2];
 }	t_minishell;
 
 int check_quote(t_minishell *minishell);
@@ -162,13 +158,13 @@ int			ft_exit(t_minishell *minishell);
 long long	ft_atoi(char *nptr, int *error);
 
 int		ft_printf(const char *format, ...);
-void	her_doc(char *stop, int fd, t_minishell* minishell);
+void	her_doc_run(char *stop, int fd, t_minishell* minishell);
 int		check_syntax(t_tokens **tokens);
 int		veragrel(int *arg1, int arg2);
-void	here_docs_init(t_minishell *minishell);
+int	here_docs_init(t_minishell *minishell);
 void	cd_helper(t_EnvList *env, int *i, char *pwd);
 void	delete_fd_arrs(t_minishell *minishell);
-void	free_memory(t_minishell *minishell, int code);
+int	free_memory(t_minishell *minishell, int code);
 void	delete_fd_arrs(t_minishell *minishell);
 void	anyndhat(t_minishell *minishell);
 void	set_default_values(t_minishell *minishell);
@@ -179,6 +175,12 @@ int		handle_signal(void);
 int	open_pipes(t_minishell *minishell);
 void	prepare_for_the_next_command(int *i, int *token_index, t_minishell *minishell, int *her_doc_index);
 int	open_and_run_forks(t_minishell *minishell, t_tokens **tokens, int *token_index, int *her_doc_index);
+int	out_redir(int *i, int *fd, t_tokens**tokens, t_minishell *minishell);
+int	out_append_redir(int *i, int *fd, t_tokens **tokens, t_minishell *minishell);
+int	in_redir(int *i, int *fd, t_tokens **tokens, t_minishell *minishell);
+void	close_open_pipes(int **pipes_arr, int minchev);
+int	write_dollar_helper(int *index, char *str, char *token_str, int *j);
+int	here_doc_redir(int *i, int *fd, t_minishell *minishell, int *doc_index);
+int	write_two_quote_helper(t_tokens *token, int *j, int *i, char *str);
 
-// void	signals(void);
 #endif
