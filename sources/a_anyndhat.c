@@ -76,8 +76,7 @@ void	anyndhat(t_minishell *mini)
 		if (mini->str == 0)
 			break ;
 		check_line_null(mini->str);
-		if (check_quote(mini) == 1 || printf("Chakerty bacvel \
-e u chi pakvel kam verjin simvoly '\\' e:\n"))
+		if (check_quote(mini) == 1)
 		{
 			mini->tokens = split_tokens(0, mini->str, mini, 0);
 			if (check_syntax(mini->tokens) == 2 && free_memory(mini, 0))

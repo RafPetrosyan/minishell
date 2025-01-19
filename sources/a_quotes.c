@@ -20,7 +20,7 @@ int	check_quote(t_minishell *minishell)
 	i = 0;
 	lenght = ft_strlen(minishell->str);
 	if (lenght != 0 && minishell->str[lenght - 1] == '\\')
-		return (0);
+		return (!(ft_printf("`'` chakerty bacvel u chi pakvel\n")));
 	while (i < lenght)
 	{
 		if (minishell->str[i] == '\'')
@@ -88,7 +88,7 @@ int	check_one_quote(char *str, int *i)
 		if (flag == 2)
 			return (count - 2);
 	}
-	printf("chi pakvel meky");
+	ft_printf("`'` chakerty bacvel u chi pakvel\n");
 	return (-1);
 }
 
@@ -117,5 +117,6 @@ int	check_two_quote(int *i, t_minishell *minishell)
 		if (flag == 2)
 			return (count - 2);
 	}
+	ft_printf("`\"` chakerty bacvel u chi pakvel\n");
 	return (-1);
 }

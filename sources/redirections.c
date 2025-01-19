@@ -80,7 +80,8 @@ int	in_redir(int *i, int *fd, t_tokens **tokens, t_minishell *minishell)
 	(*i) += 2;
 	return (3);
 }
-int	here_doc_redir(int *i, int *fd, t_minishell *minishell, int *doc_index)
+
+int	doc_red(int *i, int *fd, t_minishell *minishell, int *doc_index)
 {
 	if (*fd != -1)
 		close(*fd);

@@ -210,6 +210,14 @@ int	write_dollar_helper(int *index, char *str, char *token_str, int *j)
 	return (-1);
 }
 
+char	*strin_veragrel_hamapatasxany(t_minishell *minishell)
+{
+	if (minishell->here_doc_str == 0)
+		return (minishell->str);
+	else
+		return (minishell->here_doc_str);
+}
+
 int	find_to_env_write(int *i, t_minishell *minishell, char *token_str, int *k)
 {
 	int			j;
@@ -218,10 +226,7 @@ int	find_to_env_write(int *i, t_minishell *minishell, char *token_str, int *k)
 	t_EnvList	*env;
 
 	env = minishell->env_list;
-	if (minishell->here_doc_str == 0)
-		str = minishell->str;
-	else
-		str = minishell->here_doc_str;
+	str = strin_veragrel_hamapatasxany(minishell);
 	count = 0;
 	while (env != 0)
 	{
@@ -231,15 +236,25 @@ int	find_to_env_write(int *i, t_minishell *minishell, char *token_str, int *k)
 			if (env->key[j + 1] == '\0' && !(check_env_key(str[*i + j + 1])))
 			{
 				ft_strlcpy(token_str, env->value, ft_strlen(env->value) + 1, k);
-				*i += j + 1;
-				count += ft_strlen(env->value);
+				find_to_env_write_helper1(i, j, &count, env);
 				return (count);
 			}
 			++j;
 		}
 		env = env->next;
 	}
+	find_to_env_write_helper2(i, str);
+	return (count);
+}
+
+void	find_to_env_write_helper1(int *i, int j, int *count, t_EnvList *env)
+{
+	*i += j + 1;
+	*count += ft_strlen(env->value);
+}
+
+void	find_to_env_write_helper2(int *i, char *str)
+{
 	while (check_env_key(str[*i]))
 		++(*i);
-	return (count);
 }

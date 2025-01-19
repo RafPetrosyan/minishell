@@ -35,7 +35,7 @@ long long	ft_atoi(char *nptr, int *error)
 	{
 		++(*error);
 		ft_printf(" numeric argument required\n");
-		return (255);
+		return (2);
 	}
 	return (sign * numb);
 }
@@ -47,7 +47,10 @@ int	ft_exit(t_minishell *minishell)
 	error = 0;
 	printf("exit\n");
 	if (minishell->cmd_arr[1] == 0)
-		return (2);
+	{
+		free_memory(minishell, 1);
+		exit(g_exit_status);
+	}
 	g_exit_status = ft_atoi(minishell->cmd_arr[1], &error) % 256;
 	if (minishell->cmd_arr[2] != 0 && error == 0)
 	{

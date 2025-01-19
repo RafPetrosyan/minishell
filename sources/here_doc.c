@@ -106,11 +106,11 @@ int	check_syntax_helper(t_tokens **tokens, int *i)
 {
 	while (tokens[*i] != 0)
 	{
-		if (i == 0 && tokens[0]->type == PIPE)
+		if (*i == 0 && tokens[0]->type == PIPE)
 		{
 			g_exit_status = 2;
 			ft_printf("bash: syntax error near\
- unexpected token `%s'", tokens[*i]->str);
+ unexpected token `%s'\n", tokens[*i]->str);
 			return (2);
 		}
 		if ((tokens[*i]->type == IN_REDIR || tokens[*i]->type == OUT_REDIR
@@ -120,7 +120,7 @@ int	check_syntax_helper(t_tokens **tokens, int *i)
 		{
 			g_exit_status = 2;
 			ft_printf("bash: syntax error near\
- unexpected token `%s'", tokens[*i + 1]->str);
+ unexpected token `%s'\n", tokens[*i + 1]->str);
 			return (2);
 		}
 		++(*i);
@@ -140,7 +140,7 @@ int	check_syntax(t_tokens **tokens)
 	if (tokens[i - 1]->type != 0)
 	{
 		g_exit_status = 2;
-		ft_printf("bash: syntax error near unexpected token `newline'");
+		ft_printf("bash: syntax error near unexpected token `newline'\n");
 		return (2);
 	}
 	g_exit_status = 0;

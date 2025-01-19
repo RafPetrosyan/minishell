@@ -180,7 +180,14 @@ int	out_append_redir(int *i, int *fd, t_tokens **tokens, t_minishell *minishell)
 int	in_redir(int *i, int *fd, t_tokens **tokens, t_minishell *minishell);
 void	close_open_pipes(int **pipes_arr, int minchev);
 int	write_dollar_helper(int *index, char *str, char *token_str, int *j);
-int	here_doc_redir(int *i, int *fd, t_minishell *minishell, int *doc_index);
+int	doc_red(int *i, int *fd, t_minishell *minishell, int *doc_index);
 int	write_two_quote_helper(t_tokens *token, int *j, int *i, char *str);
+char	*strin_veragrel_hamapatasxany(t_minishell *minishell);
+void	find_to_env_write_helper1(int *i, int j, int *count, t_EnvList *env);
+void	find_to_env_write_helper2(int *i, char *str);
+void	ft_execve_helper1(t_minishell *minishell, char **paths);
+void	ft_execve_helper2(t_minishell *minishell, char **paths);
+void	ft_execve_helper3(t_minishell *minishell, char **paths, int id);
+
 
 #endif
