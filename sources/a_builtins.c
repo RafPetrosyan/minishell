@@ -60,6 +60,12 @@ int	ft_unset(t_EnvList **env, char **tokens)
 	i = 1;
 	while (tokens[i] != 0 && *env != 0)
 	{
+		if (check_key_std(tokens[i]) == 1)
+		{
+			g_exit_status = 1;
+			++i;
+			continue;
+		}
 		j = 0;
 		unset_node = find_to_env_export(tokens[i], *env, &j);
 		if (unset_node != 0 && ft_strcmp(unset_node->key, "_") == 0)
